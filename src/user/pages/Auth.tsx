@@ -7,7 +7,7 @@ function Auth() {
         <div>
             Auth:
             <Login />
-             <Register />
+            <Register />
         </div>
     );
 }
