@@ -1,0 +1,35 @@
+@use "../shered/colors";
+.nav-bar {
+    width: 100%;
+    background-color: colors.$main;
+    color: colors.$textSecundary;
+}
+.nav-bar_elements {
+    padding: 24px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.nav-bar_hamburger {
+    width: 40px;
+    height: 32px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    span {
+        height: 3px;
+        background-color: colors.$bg;
+    }
+}
+.nav-bar_logo {
+    font-family: 'Berkshire Swash', cursive;
+    font-size: 24px;
+}
+.nav-bar_book-mark {
+    position: fixed;
+    top: 78px;
+    left: 26px;
+    height: 18px;
+    width: 48px;
+}
