@@ -1,0 +1,13 @@
+@use "../shared/colors";
+@use "../shared/styles";
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    padding: 20px 0;
+    width: 100%;
+    border-top: styles.$border;
+    color: colors.$main;
+    font-size: x-small;
+    text-align: center;
+}

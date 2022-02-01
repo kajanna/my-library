@@ -16,22 +16,20 @@ import './App.scss'
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <NavBar />
-      <header className="App-header">
-      My App:
-      Routes:
-      <Routes>
-        <Route path="/" element={<Welcome />}/>
-        <Route path="/auth" element={<Auth />}/>
-        <Route path="/my-library" element={<MyLibrary />}/>
-        <Route path="/search-for-books" element={<SearchForBooks />}/>
-        <Route path="/borrowed-books" element={<BorrowedBooks/>}/>
-        <Route path="/add-new-book" element={<AddNewBook />}/>
-        <Route path="/edit-book-data" element={<EditBookData />}/>
-        <Route path="/borrow-book" element={<BorrowBook />}/>
-      </Routes>
-      </header>
+      <div className="app_main">
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/my-library" element={<MyLibrary />} />
+          <Route path="/search-for-books" element={<SearchForBooks />} />
+          <Route path="/borrowed-books" element={<BorrowedBooks />} />
+          <Route path="/add-new-book" element={<AddNewBook />} />
+          <Route path="/edit-book-data" element={<EditBookData />} />
+          <Route path="/borrow-book" element={<BorrowBook />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );

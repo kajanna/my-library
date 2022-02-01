@@ -6,6 +6,11 @@ body {
     font-family: 'Montserrat Alternates', sans-serif, 'Berkshire Swash', cursive;
     color: colors.$text;
     width: 100%;
+    position: relative
+}
+.app_main {
+    padding: 3rem 2rem;
+    background: #CDBBA7;
 }
 
   

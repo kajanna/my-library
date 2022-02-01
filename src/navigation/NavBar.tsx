@@ -27,7 +27,6 @@ const hideSideMenuHendler = () => setShowSideMenu(false);
       <div className="nav-bar_book-mark">
         <BookMark />
       </div>
-      )
     </>
   );
 }
