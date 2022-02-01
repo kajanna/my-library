@@ -1,8 +1,9 @@
-@use "../shered/colors";
+@use "../shared/colors";
 .nav-bar {
     width: 100%;
     background-color: colors.$main;
     color: colors.$textSecundary;
+    z-index: 10;
 }
 .nav-bar_elements {
     padding: 24px 30px;
@@ -27,9 +28,10 @@
     font-size: 24px;
 }
 .nav-bar_book-mark {
-    position: fixed;
+    position: absolute;
     top: 78px;
     left: 26px;
     height: 18px;
     width: 48px;
+    z-index: 12;
 }

@@ -1,0 +1,13 @@
+@use "../shared/colors";
+
+.side-menu {
+    background-color: colors.$bg;
+    border: 2px solid colors.$main;
+    border-left: none;
+    z-index: 6;
+    position: fixed;
+    top:78px;
+    left: 0;
+    padding: 30px;
+    border-radius: 0 0 40px 0;
+}

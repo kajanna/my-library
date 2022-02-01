@@ -1,0 +1,4 @@
+@use './colors';
+
+$border : 3px solid colors.$main;
+$borderDanger : 3px solid colors.$danger;

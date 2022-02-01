@@ -1,10 +1,15 @@
 import React from 'react';
 
+import Card from '../../shared/Card';
+import Button from '../../shared/Button';
+
 function Login() {
     return (
-        <div>
-            Login
-        </div>
+        <Card title="login">
+            <div>email</div>
+            <div>password</div>
+            <Button buttonText="login"/>
+        </Card>
     );
 }
 

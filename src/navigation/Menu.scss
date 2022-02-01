@@ -1,0 +1,13 @@
+@use "../shared/colors";
+
+.menu { 
+    display: flex;
+    flex-direction: column;
+    a {
+        text-decoration: none;
+        color: colors.$text;
+        &:hover {
+          color: colors.$textLighten;
+        }
+    }
+}
