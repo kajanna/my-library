@@ -1,0 +1,9 @@
+@use '../../shared/styles';
+
+.book-form__main {
+    padding: 1rem 2rem;
+    border-bottom: styles.$border;
+}
+.book-form__button-section {
+    padding: 1rem 2rem;
+}

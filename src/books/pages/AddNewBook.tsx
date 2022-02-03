@@ -1,9 +1,10 @@
 import React from 'react';
+import BookForm from '../components/BookForm';
 
 function AddNewBook() {
     return (
         <div>
-            AddNewBook
+            <BookForm title="AddNewBook"/>
         </div>
     );
 }

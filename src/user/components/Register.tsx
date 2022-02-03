@@ -6,11 +6,11 @@ import InputElement from '../../shared/Form/InputElement';
 
 function Register() {
     return (
-        <Card title="register">
+        <Card title="register" addContentPadding={true}>
             <InputElement label="name"/>
             <InputElement label="email"/>
             <InputElement label="password" errorInput="sfafsfs"/>
-            <Button buttonText="login"/>
+            <Button buttonText="login" onClick={() => console.log("hej!")}/>
         </Card>
     );
 }

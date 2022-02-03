@@ -6,10 +6,10 @@ import InputElement from '../../shared/Form/InputElement';
 
 function Login() {
     return (
-        <Card title="login">
+        <Card title="login" addContentPadding={true}>
             <InputElement label="email"/>
             <InputElement label="password" errorInput="sfafsfs"/>
-            <Button buttonText="login"/>
+            <Button buttonText="login" onClick={() => console.log("hej!")}/>
         </Card>
     );
 }

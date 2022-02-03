@@ -1,0 +1,45 @@
+@use "../../shared/colors";
+@use "../../shared/styles";
+.book-item__main {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+}
+.book-item__actions {
+    z-index: 6;
+    position: absolute;
+    right: 60px;
+    margin-top: -60px;
+    
+} 
+.book-item__info {
+    padding: 15px;
+    font-size: 12px;
+}
+.book-item__title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.book-item__photo {
+    background-color: colors.$appbg;
+}
+.book-item__footer {
+    display: inline-grid;
+    grid-template-columns: 2fr 7fr;
+}
+.book-item__footer--borrower {
+    color: colors.$main;
+    padding: 0 1.3rem;
+    display: flex;
+    flex-direction: row;
+}
+.book-item__footer--icon {
+    height: 24;
+    width: 24px;
+    padding: 12px 5px 12px 0;
+}
+.book-item__footer--separator {
+    border-right: styles.$border;
+}
