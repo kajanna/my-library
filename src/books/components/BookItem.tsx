@@ -2,42 +2,34 @@ import React from 'react';
 
 import { Book } from '../../shared/shared_interfaces';
 
-import { ReactComponent as MailIcon } from '../../assets/mail_icon.svg'
-import Card from '../../shared/Card';
 import BookItemActions from './BookItemActions';
+import Card from '../../shared/Card';
+
 
 import './BookItem.scss'
 
-function BookItem({ borrower, title, author, description, cover} : Book) {
-    const bookItemFooter = (
-        <div className='book-item__footer'>
-            <div className='book-item__footer--borrower book-item__footer--separator'>
-                <p>borrower</p>
+function BookItem({ borrower, title, author, date, cover }: Book) {
+  const bookItemActions = <BookItemActions />
+  return (
+    <div className="book-item">
+      <Card title={bookItemActions} noTitlePadding>
+        <div className="book-item__main">
+          <div className="book-item__info">
+    
+              <div className="book-item__title">{title}</div>
+              <div>{author}</div>
+          
+            <div className="book-item__info-items">{date}</div>
+            <div className="book-item__info-items">
+              <div>borrower:</div>
+              <div>{borrower}</div>
             </div>
-            <div className='book-item__footer--borrower'>
-              <div className='book-item__footer--icon'> <MailIcon /></div>
-           
-                <p>
-                {borrower} 
-                </p>
-            </div>
-        </div>
-    )
-    return (
-      <>
-        <Card cardFooter={bookItemFooter}>
-        <div className='book-item__actions'><BookItemActions /></div>
-          <div className="book-item__main">   
-            <div className="book-item__info">
-              <p className="book-item__title">{title}</p>
-              <p>{author}</p>
-              <p>{description}</p>
-            </div>
-            <div className="book-item__photo">{cover}</div>
           </div>
-        </Card>
-      </>
-    );
+          <div className="book-item__photo">{cover}</div>
+        </div>
+      </Card>
+    </div>
+  );
 }
 
 export default BookItem;

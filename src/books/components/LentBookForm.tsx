@@ -14,7 +14,7 @@ interface BorrowBookFormProps {
 
 function BorrowBookForm({ title, author, owner }: BorrowBookFormProps) {
   return (
-    <Card title="Borrow" >
+    <Card title="Lend" >
       <div className="borrow-book-form__main">
         <div className="borrow-book-form__info">
           <p><span>{title}</span><br></br>{author}</p>

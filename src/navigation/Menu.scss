@@ -1,13 +1,23 @@
 @use "../shared/colors";
 
 .menu { 
+  margin-top: 20px;
     display: flex;
     flex-direction: column;
     a {
         text-decoration: none;
-        color: colors.$text;
+        color: colors.$main;
+        padding-bottom: 20px;
         &:hover {
           color: colors.$textLighten;
+        }
+        &::after {
+          content: '';
+          display: block;
+          height: 2px;
+          width: 100%;
+          margin: 6px 0 ;
+          background-color: colors.$main;
         }
     }
 }

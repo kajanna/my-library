@@ -6,7 +6,7 @@ import InputElement from '../../shared/Form/InputElement';
 
 function Login() {
     return (
-        <Card title="login" addContentPadding={true}>
+        <Card title="login" addContentPadding>
             <InputElement label="email"/>
             <InputElement label="password" errorInput="sfafsfs"/>
             <Button buttonText="login" onClick={() => console.log("hej!")}/>

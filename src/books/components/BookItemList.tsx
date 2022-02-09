@@ -14,7 +14,7 @@ function BookItemList({ items}: BookItemListProps) {
         borrower={book.borrower} 
         title={book.title} 
         author={book.author} 
-        description={book.description}
+        date={book.date}
         owner={book.owner} />)}
     </div>)
 }

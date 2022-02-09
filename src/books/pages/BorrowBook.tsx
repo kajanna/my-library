@@ -1,11 +1,22 @@
 import React from 'react';
-import BorrowBookForm from '../components/BorrowBookForm';
+
+import Card from '../../shared/Card';
+import InputElement from '../../shared/Form/InputElement';
+import Button from '../../shared/Button';
 
 function BorrowBook() {
     return (
-        <div>
-            <BorrowBookForm title="Lord of the Rings" author="J.R.R. Tolkien" owner="Dominik"/>
-        </div>
+        <Card title="Borrow">
+          <div className="book-form__main">
+            <InputElement label="title" />
+            <InputElement label="author/authors" />
+            <InputElement label="owner"/>
+            <div> AddBookCover</div>
+          </div>
+          <div className="book-form__button-section">
+            <Button buttonText="Borrow" onClick={() => console.log("Borrow")} />
+          </div>
+        </Card>
     );
 }
 

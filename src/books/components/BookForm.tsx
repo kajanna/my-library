@@ -15,8 +15,8 @@ function BookForm({ title }: BookFormProps) {
       <div className="book-form__main">
         <InputElement label="title" />
         <InputElement label="author/authors" />
-        <InputElement label="description" textAreaEl />
-        <div> AddBookCover</div>
+        <InputElement label="borrower"/>
+        <div>AddBookCover</div>
       </div>
       <div className="book-form__button-section">
         <Button buttonText="add" onClick={() => console.log("add")} />
