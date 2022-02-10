@@ -1,3 +1,10 @@
+@use '../../shared/colors';
+
+@mixin actionBtnHover {
+    color: lighten(colors.$main, 20%);
+    transform: translateY(-4px);
+} 
+
 .book-item-actions {
     display: flex;
     flex-direction: row;
@@ -6,5 +13,16 @@
 .book-item-actions__icons {
     width: 30px;
     height:30px;
-    margin: 5px 20px 0 0 ;
+    margin: 5px 20px 0 0;
+    color: colors.$main;
+    transition: all .3s linear;
+    a {
+        color: colors.$main;
+        &:hover {
+            @include actionBtnHover
+    }
+    }
+    &:hover {
+        @include actionBtnHover
+}  
 }

@@ -4,13 +4,13 @@ import './Button.scss';
 
 interface ButtonProps {
     buttonText: string | JSX.Element | JSX.Element[],
-    reversed?: boolean | null,
-    onClick: () => void
+    onClick?: () => void | null,
+    type?: "button" | "submit" | "reset" | undefined
 }
 
-function Button({ buttonText, reversed, onClick }: ButtonProps) {
+function Button({ buttonText,  onClick, type }: ButtonProps) {
     return (
-        <button className={reversed ? "button--reversed" : "button"} onClick={onClick}>
+        <button className="button" type={type} onClick={onClick}>
             {buttonText}
         </button>
     );

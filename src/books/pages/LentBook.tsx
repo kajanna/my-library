@@ -1,12 +1,12 @@
 import React from 'react';
-import LentBookForm from '../components/LentBookForm';
+import LendBookForm from '../components/LendBookForm';
 
-function BorrowBook() {
+function LentBook() {
     return (
         <div>
-            <LentBookForm title="Lord of the Rings" author="J.R.R. Tolkien" owner="Dominik"/>
+            <LendBookForm title="Lord of the Rings" author="J.R.R. Tolkien"/>
         </div>
     );
 }
 
-export default BorrowBook;
+export default LentBook;

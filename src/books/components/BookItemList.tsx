@@ -10,6 +10,7 @@ interface BookItemListProps {
 function BookItemList({ items}: BookItemListProps) {
     return (<div>
         {items.map((book:Book)=> <BookItem 
+        key={book.id}
         id={book.id}
         borrower={book.borrower} 
         title={book.title} 

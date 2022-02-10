@@ -2,3 +2,14 @@
 
 $border : 3px solid colors.$main;
 $borderDanger : 3px solid colors.$danger;
+
+@mixin buttonBase ($btnColor, $btnBorder, $btnBackground) {
+	padding: 12px;
+	color: $btnColor;
+    background: $btnBackground;
+    border: $btnBorder;
+	text-transform:capitalize;
+	font-size: 14px;
+    font-weight: 400;
+	letter-spacing: 2px;
+}

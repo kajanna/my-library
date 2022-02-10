@@ -3,6 +3,7 @@
 
 .book-item {
     margin-top: 3rem;
+    max-width: 400px;
 }
 .book-item__main {
     width: 100%;
@@ -14,6 +15,9 @@
     padding: 20px;
     font-size: 12px;
     min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .book-item__info-items {
     margin-top: 20px;

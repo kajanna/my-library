@@ -2,15 +2,15 @@
 @use '../../shared/styles';
 
 
-.borrow-book-form__main {
+.lend-book-form__main {
     display: grid;
     grid-template-rows: 155px;
     width: 100%;
 }
-.borrow-book-form__info {
+.lend-book-form__info {
     padding: 1rem 2rem;
     border-bottom: styles.$border;
 }
-.borrow-book-form-main__form {
+.lend-book-form-main__form {
     padding: 1rem 2rem;
 }

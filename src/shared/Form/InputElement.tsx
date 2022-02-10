@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState} from 'react';
 
+import { Field } from 'formik';
 import './InputElement.scss';
 
 interface InputElementProps {
     label: string,
-    errorInput?: string | null,
-    textAreaEl?: boolean | null
+    id: string,
+    name: string,
+    type:string,
 }
 
-function InputElement({ label, errorInput, textAreaEl }: InputElementProps) {
+function InputElement({ label, id, name, type }: InputElementProps) {
   return (
     <div className="input-element">
-      <label>{label}</label>
-      {textAreaEl
-      ? <textarea rows={4} />
-      : <input />}
-      <p className="input-element__error-text">{errorInput}</p>
+      <label htmlFor={label}>{label}</label>
+      <Field
+            id={id}
+            name={name}
+            type={type}
+          />
+      <p className="input-element__error-text"> </p>
     </div>
   );
 }

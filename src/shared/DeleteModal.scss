@@ -1,0 +1,28 @@
+@use './colors';
+@use './styles';
+
+$cancelBorder: colors.$text 3px solid;
+$btnWidth: 100px;
+
+.delete-modal-button-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem
+}
+.delete-modal-button-delete {
+    @include styles.buttonBase(colors.$danger, styles.$borderDanger, colors.$bg);
+    width: $btnWidth;
+    transition: all .3s linear;
+    &:hover {
+        background-color: lighten(colors.$danger, 30%);
+    }
+
+}
+.delete-modal-button-cancel {
+    @include styles.buttonBase(colors.$text, $cancelBorder, colors.$bg);
+    width: $btnWidth;
+    transition: all .5s linear;
+    &:hover {
+        background-color: lighten(colors.$text, 40%);
+    }
+}
