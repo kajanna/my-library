@@ -23,7 +23,6 @@ interface BorrowBookFormikValues {
 }
 
 function BorrowBook() {
-  
   function handleSubmit(values: BorrowBookFormikValues) {
     console.log(values);
   }
@@ -38,19 +37,42 @@ function BorrowBook() {
       }}
       onSubmit={handleSubmit}
     >
-    <Card title="Borrow">
-      <Form>
-      <div className="book-form__main">
-        <InputElement label="title" id="title" name="title" type="text" />
-        <InputElement label="author/authors" id="authors" name="authors" type="text"/>
-        <InputElement label="owner" id="owner" name="owner" type="text" />
-        <div> AddBookCover</div>
-      </div>
-      <div className="book-form__button-section">
-        <Button buttonText="Borrow" type="submit" />
-      </div>
-      </Form>
-    </Card>
+      {({ errors, touched }) => (
+        <Card title="Borrow">
+          <Form>
+            <div className="book-form__main">
+              <InputElement
+                label="title"
+                id="title"
+                name="title"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <InputElement
+                label="author/authors"
+                id="authors"
+                name="authors"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <InputElement
+                label="owner"
+                id="owner"
+                name="owner"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <div> AddBookCover</div>
+            </div>
+            <div className="book-form__button-section">
+              <Button buttonText="Borrow" type="submit" />
+            </div>
+          </Form>
+        </Card>
+      )}
     </Formik>
   );
 }

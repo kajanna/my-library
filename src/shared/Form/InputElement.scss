@@ -2,27 +2,29 @@
 @use "../styles";
 
 .input-element {
-    padding: 10px 0;
+    padding: 10px 0 20px 0; 
     display: flex;
     flex-direction: column;
-    width: 100%;
+    position: relative;
     label {
         font-size: 12px;
         padding: 5px;
     }
     input {
         height: 40px;
+        width: calc(100% - 26px);
         border: styles.$border;
         outline: none;
         padding: 0 10px;
     }
-    textarea {
-        border: styles.$border;
-        resize: vertical;
-        outline: none;
-    }
-    p {
-        color: colors.$danger;
-        font-size: 10px;
-    }
+}
+.input-element__error-message {
+    position: absolute;
+    bottom: 5px;
+    padding-top: 5px;
+    font-size: 10px;
+    color: colors.$error
+}
+.input-element--error input {
+    border: styles.$borderDanger;
 }

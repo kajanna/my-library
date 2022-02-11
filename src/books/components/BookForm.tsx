@@ -42,33 +42,43 @@ function BookForm({ title }: BookFormProps) {
       }}
       onSubmit={handleSubmit}
     >
-      <Card title={title}>
-        <Form>
-          <div className="book-form__main">
-            <InputElement 
-              label="title" 
-              id="title" 
-              name="title" 
-              type="text" />
-            <InputElement
-              label="author/authors"
-              id="authors"
-              name="authors"
-              type="text"
-            />
-            <InputElement
-              label="borrower"
-              id="borrower"
-              name="borrower"
-              type="text"
-            />
-            <div>AddBookCover</div>
-          </div>
-          <div className="book-form__button-section">
-            <Button buttonText="add" type="submit" />
-          </div>
-        </Form>
-      </Card>
+      {({ errors, touched }) => (
+        <Card title={title}>
+          <Form>
+            <div className="book-form__main">
+              <InputElement
+                label="title"
+                id="title"
+                name="title"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <InputElement
+                label="author/authors"
+                id="authors"
+                name="authors"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <InputElement
+                label="borrower"
+                id="borrower"
+                name="borrower"
+                type="text"
+                errors={errors}
+                touched={touched}
+              />
+              <div>AddBookCover</div>
+            </div>
+            <div className="book-form__button-section">
+              <Button buttonText="add" type="submit" />
+            </div>
+            )
+          </Form>
+        </Card>
+      )}
     </Formik>
   );
 }

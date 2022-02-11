@@ -35,28 +35,32 @@ function LendBookForm({ title, author}: LendBookFormProps) {
       }}
       onSubmit={handleSubmit}
     >
-      <Card title="Lend">
-        <Form>
-          <div className="lend-book-form__main">
-            <div className="lend-book-form__info">
-              <p>
-                <span>{title}</span>
-                <br></br>
-                {author}
-              </p>
+      {({ errors, touched }) => (
+        <Card title="Lend">
+          <Form>
+            <div className="lend-book-form__main">
+              <div className="lend-book-form__info">
+                <p>
+                  <span>{title}</span>
+                  <br></br>
+                  {author}
+                </p>
+              </div>
+              <div className="lend-book-form-main__form">
+                <InputElement
+                  label="borrower"
+                  id="borrower"
+                  name="borrower"
+                  type="text"
+                  errors={errors}
+                  touched={touched}
+                />
+                <Button type="submit" buttonText="send" />
+              </div>
             </div>
-            <div className="lend-book-form-main__form">
-              <InputElement
-                label="borrower"
-                id="borrower"
-                name="borrower"
-                type="text"
-              />
-              <Button type="submit" buttonText="send" />
-            </div>
-          </div>
-        </Form>
-      </Card>
+          </Form>
+        </Card>
+      )}
     </Formik>
   );
 }

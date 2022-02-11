@@ -36,22 +36,28 @@ function Login() {
         password: "",
       }}
       onSubmit={handleSubmit} >
+         {({ errors, touched }) => (
         <Card title="login" addContentPadding>
           <Form>
             <InputElement 
                 label="email" 
                 id="email" 
                 name="email" 
-                type="email" />
+                type="email"
+                errors={errors}
+                  touched={touched} />
             <InputElement
               label="password"
               id="password"
               name="password"
               type="password"
+              errors={errors}
+                  touched={touched}
             />
             <Button type="submit" buttonText="login" />
           </Form>
         </Card>
+         )}
       </Formik>
     );
 }

@@ -39,27 +39,35 @@ function Register() {
       }}
       onSubmit={handleSubmit}
     >
+       {({ errors, touched }) => (
       <Card title="register" addContentPadding>
         <Form>
           <InputElement 
             label="name" 
             id="name" 
             name="name" 
-            type="text" />
+            type="text"
+            errors={errors}
+                  touched={touched} />
           <InputElement 
             label="email" 
             id="email" 
             name="email" 
-            type="email" />
+            type="email"
+            errors={errors}
+                  touched={touched} />
           <InputElement
             label="password"
             id="password"
             name="password"
             type="password"
+            errors={errors}
+                  touched={touched}
           />
-          <Button buttonText="login" onClick={() => console.log("hej!")} />
+          <Button buttonText="Register" />
         </Form>
       </Card>
+       )}
     </Formik>
   );
 }
