@@ -1,0 +1,10 @@
+@use '../../shared/mediaq';
+
+.auth {
+    @include mediaq.for-desktop-up {
+        display: flex;
+    }
+}
+.auth-element {
+    margin: 0 4rem;
+}

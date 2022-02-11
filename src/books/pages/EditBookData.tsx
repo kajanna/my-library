@@ -1,11 +1,13 @@
 import React from 'react';
 import BookForm from '../components/BookForm';
 
+import AppearAnimation from '../../shared/AppearAnimation';
+
 function EditBookData() {
     return (
-        <div>
+        <AppearAnimation>
             <BookForm title="Edit book data"/>
-        </div>
+        </AppearAnimation>
     );
 }
 

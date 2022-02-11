@@ -5,7 +5,7 @@ import { ReactComponent as VisibleIcon } from '../../assets/visible_icon.svg'
 import AddBookLink from '../components/AddBookLink';
 import BookItemList from '../components/BookItemList';
 import Button from '../../shared/Button';
-
+import AppearAnimation from '../../shared/AppearAnimation';
 
 import './MyLibrary.scss';
 
@@ -20,6 +20,53 @@ function MyLibrary() {
             owner: "Dominik",
             borrower: "Dawid"
         },
+        {
+          id:"sg ersgersh ",
+          title: "Lord of the Rings",
+          author: "J.R.R. Tolkien",
+          date: "23.06.2022",
+          cover: "sss",
+          owner: "Dominik",
+          borrower: "Dawid"
+      },
+      {
+        id:"sg ersgersh ",
+        title: "Lord of the Rings",
+        author: "J.R.R. Tolkien",
+        date: "23.06.2022",
+        cover: "sss",
+        owner: "Dominik",
+        borrower: "Dawid"
+    },
+    {
+      id:"sg ersgersh ",
+      title: "Lord of the Rings",
+      author: "J.R.R. Tolkien",
+      date: "23.06.2022",
+      cover: "sss",
+      owner: "Dominik",
+      borrower: "Dawid"
+  },
+  {
+    id:"sg ersgersh ",
+    title: "Lord of the Rings",
+    author: "J.R.R. Tolkien",
+    date: "23.06.2022",
+    cover: "sss",
+    owner: "Dominik",
+    borrower: "Dawid"
+},
+{
+  id:"sg ersgersh ",
+  title: "Lord of the Rings",
+  author: "J.R.R. Tolkien",
+  date: "23.06.2022",
+  cover: "sss",
+  owner: "Dominik",
+  borrower: "Dawid"
+},
+        
+
     ];
     const buttonContent = (text :string) => (
       <div className='button-content'>
@@ -28,13 +75,28 @@ function MyLibrary() {
       </div>
     );
     return (
-        <div>
+      <AppearAnimation>
+          <div className="my-library__main">
             <AddBookLink />
-            <Button buttonText={buttonContent("all books")} onClick={() => console.log("show all books")}/>
-            <Button buttonText={buttonContent("lent books")} onClick={() => console.log("show Lent books")}/>
-            <Button buttonText={buttonContent("borrowed books")} onClick={() => console.log("show Borrowed books")}/>
-            <BookItemList items={dummybooklist}/>
-        </div>
+            <div>
+              <div className="my-library__buttons">
+            <Button
+              buttonText={buttonContent("all books")}
+              onClick={() => console.log("show all books")}
+            />
+            <Button
+              buttonText={buttonContent("lent books")}
+              onClick={() => console.log("show Lent books")}
+            />
+            <Button
+              buttonText={buttonContent("borrowed books")}
+              onClick={() => console.log("show Borrowed books")}
+            />
+            </div>
+            </div>
+          </div>
+            <BookItemList items={dummybooklist} />
+      </AppearAnimation>
     );
 }
 

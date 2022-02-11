@@ -1,4 +1,6 @@
 @use "shared/colors";
+@use './shared/mediaq';
+
 html, body {
     margin: 0;
     padding: 0;
@@ -9,10 +11,15 @@ html, body {
 }
 
 .app__main {
-    padding: 3rem 2rem;
+    padding: 3rem 1.2rem;
     background: colors.$appbg;
     min-height: calc(100vh - 210px);
-
+    @include mediaq.for-tablet-desktop-up {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+  
 }
 .app__footer {
     position:fixed;

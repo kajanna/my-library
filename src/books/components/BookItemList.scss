@@ -1,0 +1,11 @@
+@use '../../shared/mediaq';
+
+.book-list {
+    @include mediaq.for-desktop-up {
+        display: grid;
+        column-gap: 4rem;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 3rem;
+    }
+    
+}

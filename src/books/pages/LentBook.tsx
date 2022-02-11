@@ -1,11 +1,13 @@
 import React from 'react';
+
 import LendBookForm from '../components/LendBookForm';
+import AppearAnimation from '../../shared/AppearAnimation';
 
 function LentBook() {
     return (
-        <div>
+        <AppearAnimation>
             <LendBookForm title="Lord of the Rings" author="J.R.R. Tolkien"/>
-        </div>
+        </AppearAnimation>
     );
 }
 

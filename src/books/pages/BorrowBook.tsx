@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import Card from '../../shared/Card';
 import InputElement from '../../shared/Form/InputElement';
 import Button from '../../shared/Button';
+import AppearAnimation from '../../shared/AppearAnimation';
 
 const borrowBookSchema = Yup.object().shape({
   title: Yup.string()
@@ -38,6 +39,7 @@ function BorrowBook() {
       onSubmit={handleSubmit}
     >
       {({ errors, touched }) => (
+        <AppearAnimation>
         <Card title="Borrow">
           <Form>
             <div className="book-form__main">
@@ -72,6 +74,7 @@ function BorrowBook() {
             </div>
           </Form>
         </Card>
+     </AppearAnimation>
       )}
     </Formik>
   );

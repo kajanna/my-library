@@ -1,9 +1,13 @@
 @use "../../shared/colors";
 @use "../../shared/styles";
+@use "../../shared/mediaq";
 
 .book-item {
     margin-top: 3rem;
     max-width: 400px;
+    @include mediaq.for-desktop-up {
+        margin-top: 0rem;
+    }
 }
 .book-item__main {
     width: 100%;

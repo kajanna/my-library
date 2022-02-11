@@ -1,3 +1,16 @@
+@use '../../shared/mediaq';
+
+
+.my-library__main {
+    @include mediaq.for-desktop-up {
+        display: grid;
+        gap:4rem;
+        grid-template-columns: 1fr 1fr
+    } 
+}
+.my-library__buttons {
+    margin-top: -10px;
+}
 .button-content {
     display: flex;
     flex-direction: row;
