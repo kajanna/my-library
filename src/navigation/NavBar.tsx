@@ -3,17 +3,18 @@ import React, { useState } from 'react';
 import Menu from './Menu';
 import SideMenu from './SideMenu';
 import { ReactComponent as BookMark } from '../assets/bookMarkEl.svg'
+import BackDrop from '../shared/BackDrop';
 
 import './NavBar.scss';
 
+
 function NavBar() {
 
-const [ showSideMenu, setShowSideMenu ] = useState<Boolean>(false);
+const [ showSideMenu, setShowSideMenu ] = useState<boolean>(false);
 const showSideMenuHendler = () => setShowSideMenu(true);
 const hideSideMenuHendler = () => setShowSideMenu(false);
   return (
     <>
-      {showSideMenu && <SideMenu onClose={hideSideMenuHendler}/>}
       <div className="nav-bar">
         <div className="nav-bar_elements">
           <div className="nav-bar_hamburger" onClick={showSideMenuHendler}> 
@@ -27,6 +28,8 @@ const hideSideMenuHendler = () => setShowSideMenu(false);
       <div className="nav-bar_book-mark">
         <BookMark />
       </div>
+      <SideMenu show={showSideMenu} onClose={hideSideMenuHendler}/>
+      { showSideMenu && <BackDrop close={hideSideMenuHendler}/>}
     </>
   );
 }

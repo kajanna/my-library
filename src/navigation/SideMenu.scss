@@ -10,4 +10,9 @@
     left: 0;
     padding: 30px;
     border-radius: 0 0 40px 0;
+    transform: translateX(-400px);
+    transition: transform .4s ease-in;
+}
+.side-menu--show {
+    transform: none ;
 }

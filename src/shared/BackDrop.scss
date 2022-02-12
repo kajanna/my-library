@@ -1,0 +1,18 @@
+.backdrop {
+    z-index: 1;
+    position: absolute;
+    top: 80px;
+    left:0;
+    width: 100%;
+    height: calc(100% - 80px);
+    background-color: rgba($color: #ffffff, $alpha: .7);
+    animation: appear-backdrop .5s ease-out forwards;
+}
+@keyframes appear-backdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1
+    }
+}

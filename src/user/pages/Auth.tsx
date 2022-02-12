@@ -7,16 +7,14 @@ import './Auth.scss'
 
 function Auth() {
     return (
-        <AppearAnimation >
-        <div className="auth">
-            <div className="auth-element">
-            <Login />
-            </div>
-            <div className="auth-element">
-            <Register />
-            </div>
+      <AppearAnimation>
+        <div className="auth-element">
+          <Login />
         </div>
-        </AppearAnimation>
+        <div className="auth-element">
+          <Register />
+        </div>
+      </AppearAnimation>
     );
 }
 

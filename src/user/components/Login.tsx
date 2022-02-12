@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import Card from '../../shared/Card';
 import Button from '../../shared/Button';
 import InputElement from '../../shared/Form/InputElement';
+import useAuth from '../../shared/hooks/useAuth';
+import LoadingSpinner from '../../shared/LoadingSpinner';
 
 
 const loginSchema = Yup.object().shape({
@@ -24,11 +26,17 @@ interface LoginFormikValues {
 
 
 function Login() {
-    function handleSubmit (values: LoginFormikValues) {
-        console.log(values);
+    const { loading, authError, login } = useAuth();
+    async function handleSubmit (values: LoginFormikValues) {
+        try {
+          await login(values.email, values.password);
+        }catch (err){}
     }
 
     return (
+      <>
+      {loading && <LoadingSpinner />}
+    {authError && <p>{authError}</p>}
       <Formik
       validationSchema={loginSchema} 
       initialValues={{
@@ -59,6 +67,7 @@ function Login() {
         </Card>
          )}
       </Formik>
+      </>
     );
 }
 

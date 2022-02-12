@@ -1,15 +1,16 @@
 import React from 'react';
 
-import Menu from './Menu'
+import Menu from './Menu';
 
 import './SideMenu.scss'
 interface sideMenuProps {
-    onClose: () => void
+    onClose: () => void,
+    show: boolean
 }
 
-function SideMenu({ onClose } : sideMenuProps) {
+function SideMenu({ onClose, show } : sideMenuProps) {
     return (
-        <div className="side-menu" onClick={onClose}>
+        <div className={show ? "side-menu side-menu--show" : "side-menu"} onClick={onClose}>
             <Menu />
         </div>
     );
