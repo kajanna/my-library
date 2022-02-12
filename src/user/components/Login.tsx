@@ -8,6 +8,7 @@ import Button from '../../shared/Button';
 import InputElement from '../../shared/Form/InputElement';
 import useAuth from '../../shared/hooks/useAuth';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import ErrorModal from '../../shared/ErrorModal';
 
 
 const loginSchema = Yup.object().shape({
@@ -26,7 +27,7 @@ interface LoginFormikValues {
 
 
 function Login() {
-    const { loading, authError, login } = useAuth();
+    const { loading, authError, login, clearAuthError } = useAuth();
     async function handleSubmit (values: LoginFormikValues) {
         try {
           await login(values.email, values.password);
@@ -36,7 +37,7 @@ function Login() {
     return (
       <>
       {loading && <LoadingSpinner />}
-    {authError && <p>{authError}</p>}
+      {authError && <ErrorModal errorText={authError} closeErrorModal={clearAuthError}/>}
       <Formik
       validationSchema={loginSchema} 
       initialValues={{

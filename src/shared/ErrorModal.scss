@@ -1,0 +1,16 @@
+@use './colors';
+@use './styles';
+
+.error-modal__text {
+    text-align: center;
+}
+.error-modal__button {
+    @include styles.buttonBase(colors.$danger, styles.$borderDanger, colors.$bg);
+    margin-top: 2rem;
+    width: 100%;
+    transition: all .3s linear;
+    &:hover {
+        background-color: lighten(colors.$danger, 30%);
+    }
+
+}

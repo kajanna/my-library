@@ -2,7 +2,7 @@
 @use './styles';
 
 $cancelBorder: colors.$text 3px solid;
-$btnWidth: 100px;
+$btnWidth: 80px;
 
 .delete-modal-button-section {
     display: flex;

@@ -68,8 +68,12 @@ function useAuth() {
           });
     }
 
+    function clearAuthError () {
+      setAuthError(null)
+    }
+
     
-    return { user, loading, authError, register, login, logout, authCheck }
+    return { user, loading, authError, register, login, logout, authCheck, clearAuthError }
 }
 
 export default useAuth;
