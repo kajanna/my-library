@@ -9,7 +9,7 @@ import Card from '../../shared/Card';
 import './BookItem.scss'
 import DeleteModal from '../../shared/DeleteModal';
 
-function BookItem({ borrower, title, author, date, cover, id }: Book) {
+function BookItem({ borrower, title, authors, date, id  }: Book) {
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
   const bookItemActions = <BookItemActions onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
@@ -20,14 +20,14 @@ function BookItem({ borrower, title, author, date, cover, id }: Book) {
         <div className="book-item__main">
           <div className="book-item__info">
               <div className="book-item__title">{title}</div>
-              <div>{author}</div> 
+              <div>{authors}</div> 
             <div className="book-item__info-items">{date}</div>
             <div className="book-item__info-items">
               <div>borrower:</div>
               <div>{borrower}</div>
             </div>
           </div>
-          <div className="book-item__photo">{cover}</div>
+          <div className="book-item__photo"></div>
         </div>
       </Card>
     </div>

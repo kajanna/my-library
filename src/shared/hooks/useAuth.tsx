@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useNavigate } from "react-router-dom";
 
@@ -6,66 +6,69 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
+
+import {
+  getFirestore, collection, getDocs, onSnapshot, addDoc, setDoc, deleteDoc, doc, getDoc,
+  query, where, serverTimestamp
+} from 'firebase/firestore';
+
 
 
 function useAuth() {
-    const [ user, setUser ] = useState<{} | null>();
     const [ loading, setLoading ] = useState(false);
     const [ authError, setAuthError ] = useState<string | null>();
 
     const navigate = useNavigate();
     const auth = getAuth();
+    const db = getFirestore();
+    const usersRef = collection(db, "users");
+    
 
-    async function register (email:string, password:string, name: string) {
-        setLoading(true);
-        createUserWithEmailAndPassword(auth, email, password)
+    async function register(email: string, password: string, name: string) {
+      setLoading(true);
+      let uid: string | null = null;
+      createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(name);
-            setUser(user);
-            setLoading(false);
-            navigate("/my-library");
-          })
-          .catch((err) => {
-            const autError = err.message;
-            setAuthError(autError);
-            setLoading(false);
+          uid = userCredential.user.uid
+          setDoc(doc(usersRef, uid), {
+            name: name,
           });
-    }
-
-    async function login (email: string, password:string) {
-        setLoading(true);
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            setUser(user);
-            setLoading(false);
-            navigate("/my-library");
+        })
+        .then(()=> {
+          setLoading(false);
+          navigate("/my-library");
         })
         .catch((err) => {
-            const autError = err.message;
-            setAuthError(autError);
-            setLoading(false);
+          const autError = err.message;
+          setLoading(false);
+          setAuthError(autError);
         });
     }
-    function logout () {
-        setUser(null);
-        navigate("/auth");
+
+    async function login(email: string, password: string) {
+      setLoading(true);
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setLoading(false);
+          navigate("/my-library");
+        })
+        .catch((err) => {
+          setAuthError(err.message);
+          setLoading(false);
+        });
     }
 
-    async function authCheck() {
-        setLoading(true);
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-              setUser(user);
-              setLoading(false);
-            } else {
-                logout();
-                setLoading(false);
-            }
-          });
+    function logout () {
+      setLoading(true);
+      signOut(auth).then(() => {
+        navigate("/auth");
+      }).catch((err) => {
+        setAuthError(err.message);
+        setLoading(false);
+      });
+        
     }
 
     function clearAuthError () {
@@ -73,7 +76,7 @@ function useAuth() {
     }
 
     
-    return { user, loading, authError, register, login, logout, authCheck, clearAuthError }
+    return { loading, authError, register, login, logout,  clearAuthError }
 }
 
 export default useAuth;

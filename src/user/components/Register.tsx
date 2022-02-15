@@ -74,7 +74,7 @@ function Register() {
             errors={errors}
                   touched={touched}
           />
-          <Button buttonText="Register" />
+          <Button buttonText="Register" type="submit" />
         </Form>
       </Card>
        )}

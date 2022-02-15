@@ -12,57 +12,63 @@ import './MyLibrary.scss';
 function MyLibrary() {
     const dummybooklist= [
         {
-            id:"sg ersgersh ",
+            id:"sg ersger111sh ",
             title: "Lord of the Rings",
-            author: "J.R.R. Tolkien",
+            authors: "J.R.R. Tolkien",
             date: "23.06.2022",
             cover: "sss",
-            owner: "Dominik",
+            ownerName: "Dominik",
+            ownerId: "sg ersgersh ",
             borrower: "Dawid"
         },
         {
-          id:"sg ersgersh ",
+          id:"sg e22rsgersh ",
           title: "Lord of the Rings",
-          author: "J.R.R. Tolkien",
+          authors: "J.R.R. Tolkien",
           date: "23.06.2022",
           cover: "sss",
-          owner: "Dominik",
+          ownerName: "Dominik",
+          ownerId: "sg ersgersh ",
           borrower: "Dawid"
       },
       {
-        id:"sg ersgersh ",
+        id:"sg ersg444ersh ",
         title: "Lord of the Rings",
-        author: "J.R.R. Tolkien",
+        authors: "J.R.R. Tolkien",
         date: "23.06.2022",
         cover: "sss",
-        owner: "Dominik",
+        ownerName: "Dominik",
+        ownerId: "sg ersgersh ",
         borrower: "Dawid"
     },
     {
-      id:"sg ersgersh ",
+      id:"sg ersgeddd5rsh ",
       title: "Lord of the Rings",
-      author: "J.R.R. Tolkien",
+      authors: "J.R.R. Tolkien",
       date: "23.06.2022",
       cover: "sss",
-      owner: "Dominik",
+      ownerName: "Dominik",
+      ownerId: "sg ersgersh ",
       borrower: "Dawid"
   },
   {
-    id:"sg ersgersh ",
+    id:"sg ersgsgsggggggersh ",
     title: "Lord of the Rings",
-    author: "J.R.R. Tolkien",
+    authors: "J.R.R. Tolkien",
     date: "23.06.2022",
     cover: "sss",
-    owner: "Dominik",
+    ownerName: "Dominik",
+    ownerId: "sg ersgersh ",
     borrower: "Dawid"
 },
 {
-  id:"sg ersgersh ",
+  id:"sg ersgsgdsgersh ",
   title: "Lord of the Rings",
-  author: "J.R.R. Tolkien",
+  authors: "J.R.R. Tolkien",
   date: "23.06.2022",
   cover: "sss",
-  owner: "Dominik",
+  ownerName: "Dominik",
+  ownerId: "sg ersgersh ",
   borrower: "Dawid"
 },
         

@@ -9,7 +9,7 @@ interface BookItemListProps {
     items: Book[]
 }
 
-function BookItemList({ items}: BookItemListProps) {
+function BookItemList({ items }: BookItemListProps) {
     return (<div className='book-list'>
     
         {items.map((book:Book)=> <BookItem 
@@ -17,9 +17,10 @@ function BookItemList({ items}: BookItemListProps) {
         id={book.id}
         borrower={book.borrower} 
         title={book.title} 
-        author={book.author} 
+        authors={book.authors} 
         date={book.date}
-        owner={book.owner} />
+        ownerName={book.ownerName}
+        ownerId={book.ownerId} />
         )}
      
     </div>)

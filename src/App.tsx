@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './navigation/NavBar';
@@ -11,9 +11,11 @@ import LentBook from './books/pages/LentBook';
 import BorrowBook from './books/pages/BorrowBook';
 import Footer from './navigation/Footer';
 
+
 import './App.scss'
 
 function App() {
+
   return (
     <div>
       <NavBar />

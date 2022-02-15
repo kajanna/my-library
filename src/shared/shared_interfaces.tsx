@@ -1,9 +1,15 @@
 export interface Book {
     id?: string | null,
     title: string,
-    author: string,
+    authors: string,
     date: string,
     cover?: string | null,
-    owner: string,
+    ownerId: string,
+    ownerName: string,
     borrower?: string | null
+}
+
+export interface User {
+    id: string,
+    name: string
 }
