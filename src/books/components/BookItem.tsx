@@ -9,10 +9,21 @@ import Card from '../../shared/Card';
 import './BookItem.scss'
 import DeleteModal from '../../shared/DeleteModal';
 
-function BookItem({ borrower, title, authors, date, id  }: Book) {
+interface BookItemProps {
+  borrower?: string | null, 
+  title: string, 
+  authors:  string, 
+  date:string, 
+  id:string,
+  ownerName:string,
+  ownerId:string 
+  onDeleteBook:(deletedBookId: string) => void
+}
+
+function BookItem({ borrower, title, authors, date, id, onDeleteBook }: BookItemProps) {
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
-  const bookItemActions = <BookItemActions onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
+  const bookItemActions = <BookItemActions bookId={id} onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
   return (
     <>
     <div className="book-item">
@@ -31,7 +42,11 @@ function BookItem({ borrower, title, authors, date, id  }: Book) {
         </div>
       </Card>
     </div>
-    {showDeleteModal && <DeleteModal itemId={id} title={title} onCloseDeleteModal={() =>setShowDeleteModal(false)}/>}
+    {showDeleteModal && <DeleteModal 
+      itemId={id} 
+      onDeleteBook={onDeleteBook} 
+      title={title} 
+      onCloseDeleteModal={() =>setShowDeleteModal(false)}/>}
     </>
   );
 }

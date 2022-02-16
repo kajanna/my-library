@@ -2,42 +2,25 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import {
-    getFirestore, collection, getDocs, onSnapshot, addDoc, deleteDoc, doc,
-    query, where
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc,
   } from 'firebase/firestore';
 
-  import { Book } from '../shared_interfaces'
+  import { newBookData, editedBookData } from '../shared_interfaces'
+
 
 function useFirebase() {
-
-    const [ books, setBooks ] = useState<Book[] | null>();
+ 
     const [ loading, setLoading ] = useState(false);
     const [ firebaseError, setFirebasError ] = useState<string | null>();
 
-    const navigate = useNavigate();
     const db = getFirestore();
     const bookRef = collection(db, "books");
 
-    async function getUserBooks(userId: string) {
-        const q = query(bookRef, where("ownerId", "==", userId));
-        setLoading(true);
-      //getcollection data
-      getDocs(q)
-        .then((snapshot) => {
-          
-        })
-        .catch((err) => {
-          setFirebasError(err);
-          setLoading(false);
-        });
-    }
-    onSnapshot(bookRef, (snapshot)=> {
-          //doc.data();
-          setLoading(false);
-        //the same 
-    })
+    const navigate = useNavigate();
 
-    async function addNewBook( { title, authors, ownerName, ownerId, borrower, date }:Book) {
+
+    function addNewBook( { title, authors, ownerName, ownerId, borrower, date }:newBookData) {
+      setLoading(true);
       addDoc(bookRef, {
         title,
         authors,
@@ -49,24 +32,36 @@ function useFirebase() {
       .then(() => {
         setLoading(false);
         navigate("/my-library");
-      }) 
+      }).catch((err) => setFirebasError(err))
     }
 
-    async function DeleteBook( bookId:string) {
+    function deleteBook( bookId:string) {
+        setLoading(true);
         const deletedBookRef = doc(db, 'books', bookId);
         deleteDoc(deletedBookRef)
         .then(()=> {
-            console.log(deletedBookRef)
-        })
+          setLoading(false)
+        }).catch((err) => setFirebasError(err))
     }
 
-    async function EditBookData() {
-        
+    function editBookData({ title, authors, borrower, date, id }:editedBookData) {
+      setLoading(true);
+      const editedBookRef = doc(db, "books", id!);
+      updateDoc(editedBookRef, {
+        title,
+        authors,
+        borrower,
+        date
+      })
+      .then(() => {
+        setLoading(false);
+        navigate("/my-library");
+      }).catch((err) => setFirebasError(err)) 
     }
 
 
 
-    return { getUserBooks, addNewBook, DeleteBook, firebaseError, loading, books};
+    return { addNewBook, deleteBook, editBookData, firebaseError, loading, db };
 }
 
 export default useFirebase;

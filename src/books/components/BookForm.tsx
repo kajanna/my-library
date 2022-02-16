@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import { useContext } from 'react';
 
 import {Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -6,10 +6,10 @@ import * as Yup from 'yup';
 import Card from '../../shared/Card';
 import InputElement from '../../shared/Form/InputElement';
 import Button from '../../shared/Button';
-import { Book } from '../../shared/shared_interfaces';
+import { newBookData } from '../../shared/shared_interfaces';
 import useFirebase from '../../shared/hooks/useFirebase';
 import AuthContext from "../../shared/contexts/authContext";
-
+import { BookFormFormikValues, editedBookData } from '../../shared/shared_interfaces';
 import './BookForm.scss';
 
 const bookFormSchema = Yup.object().shape({
@@ -18,44 +18,50 @@ const bookFormSchema = Yup.object().shape({
   authors: Yup.string()
     .required("required"),
   borrower: Yup.string()
-    .required("required")
 });
+
 
 interface BookFormProps {
     title: string,
-}
-interface BookFormFormikValues {
-  title: string,
-  authors: string,
-  borrower:string
+    initialValues: BookFormFormikValues,
+    bookId?: string | undefined
 }
 
-function BookForm({ title }: BookFormProps) {
-  const { addNewBook } = useFirebase();
+
+function BookForm({ title, initialValues, bookId }: BookFormProps) {
+  const { addNewBook, editBookData } = useFirebase();
   const user = useContext(AuthContext);
 
   function handleSubmit(values: BookFormFormikValues) {
-    const date = new Date().getDate().toString();
-    const newBook: Book = {
-      title: values.title, 
-      authors: values.authors,
-      ownerName: user!.name, 
-      ownerId: user!.id, 
-      borrower: values.borrower,
-      date: date,
+    const date = new Date().toString();
+    if (title === "Add new book") {
+      const bookData: newBookData = {
+        title: values.title, 
+        authors: values.authors,
+        ownerName: user!.name, 
+        ownerId: user!.id, 
+        borrower: values.borrower,
+        date: date,
+      }
+      addNewBook(bookData);
+    } if (bookId) {
+      const editedbookData: editedBookData = {
+        title: values.title, 
+        authors: values.authors,
+        borrower: values.borrower,
+        date: date,
+        id: bookId
+      }
+      editBookData(editedbookData);
     }
-    console.log(newBook);
-    addNewBook(newBook);
+    
   }
 
   return (
     <Formik
       validationSchema={bookFormSchema}
-      initialValues={{
-        title: "",
-        authors: "",
-        borrower: "",
-      }}
+      enableReinitialize
+      initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       {({ errors, touched }) => (

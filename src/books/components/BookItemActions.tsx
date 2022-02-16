@@ -8,10 +8,11 @@ import { ReactComponent as DeleteIcon } from '../../assets/delete_icon.svg'
 
 import './BookItemActions.scss';
 interface BookItemActionsProps {
-  onOpenDeleteModal: () => void
+  onOpenDeleteModal: () => void,
+  bookId: string | null | undefined
 }
 
-function BookItemActions({ onOpenDeleteModal }: BookItemActionsProps ) {
+function BookItemActions({ onOpenDeleteModal, bookId }: BookItemActionsProps ) {
   return (
     <div className="book-item-actions">
       <div className="book-item-actions__icons">
@@ -20,7 +21,7 @@ function BookItemActions({ onOpenDeleteModal }: BookItemActionsProps ) {
         </Link>
       </div>
       <div className="book-item-actions__icons" >
-        <Link to="/edit-book-data">
+        <Link to={`/edit-book-data/${bookId}`}>
         <EditIcon />
         </Link>
       </div>

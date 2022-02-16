@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,9 +10,7 @@ import {
 } from "firebase/auth";
 
 import {
-  getFirestore, collection, getDocs, onSnapshot, addDoc, setDoc, deleteDoc, doc, getDoc,
-  query, where, serverTimestamp
-} from 'firebase/firestore';
+  getFirestore, collection, setDoc, doc, } from 'firebase/firestore';
 
 
 
@@ -63,6 +61,7 @@ function useAuth() {
     function logout () {
       setLoading(true);
       signOut(auth).then(() => {
+        setLoading(false);
         navigate("/auth");
       }).catch((err) => {
         setAuthError(err.message);

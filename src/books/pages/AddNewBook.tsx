@@ -8,7 +8,7 @@ import AppearAnimation from '../../shared/AppearAnimation';
 function AddNewBook() {
     return (
         <AppearAnimation>
-            <BookForm title="AddNewBook" />
+            <BookForm title="Add new book" initialValues={{ title: "", authors: "", borrower: "" }}/>
         </AppearAnimation>
     );
 }

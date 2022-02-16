@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './navigation/NavBar';
@@ -10,25 +10,40 @@ import EditBookData from './books/pages/EditBookData';
 import LentBook from './books/pages/LentBook';
 import BorrowBook from './books/pages/BorrowBook';
 import Footer from './navigation/Footer';
-
+import AuthContext from './shared/contexts/authContext';
 
 import './App.scss'
 
 function App() {
+  const auth = useContext(AuthContext);
+
+  let routes;
+  if (auth?.id) {
+    routes = (
+      <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/my-library" element={<MyLibrary />} />
+          <Route path="/add-new-book" element={<AddNewBook />} />
+          <Route path="/edit-book-data/:bookId" element={<EditBookData />} />
+          <Route path="/lend-book" element={<LentBook />} />
+          <Route path="/borrow-book" element={<BorrowBook />} />
+        </Routes>
+    )
+  } else {
+    routes = (
+      <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/auth" element={<Auth />} />
+        </Routes>
+    )
+  }
 
   return (
     <div>
       <NavBar />
       <div className="app__main">
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/my-library" element={<MyLibrary />} />
-          <Route path="/add-new-book" element={<AddNewBook />} />
-          <Route path="/edit-book-data" element={<EditBookData />} />
-          <Route path="/lend-book" element={<LentBook />} />
-          <Route path="/borrow-book" element={<BorrowBook />} />
-        </Routes>
+        {routes}
       </div>
      <div className="app__footer"></div>
       <Footer />

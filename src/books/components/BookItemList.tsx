@@ -6,23 +6,32 @@ import BookItem from './BookItem'
 import './BookItemList.scss'
 
 interface BookItemListProps {
-    items: Book[]
+    items: Book[] | null | undefined,
+    onDeleteBook: (deletedBookId: string) => void
 }
 
-function BookItemList({ items }: BookItemListProps) {
+function BookItemList({ items, onDeleteBook }: BookItemListProps) {
+    let bookList;
+    if (items) {
+      bookList = items.map((book: Book) => (
+        <BookItem
+          key={book.key}
+          id={book.id}
+          borrower={book.borrower}
+          title={book.title}
+          authors={book.authors}
+          date={book.date}
+          ownerName={book.ownerName}
+          ownerId={book.ownerId}
+          onDeleteBook={onDeleteBook}
+        />
+      ));
+    } else {
+      <div>No books!</div>;
+    }
     return (<div className='book-list'>
-    
-        {items.map((book:Book)=> <BookItem 
-        key={book.id}
-        id={book.id}
-        borrower={book.borrower} 
-        title={book.title} 
-        authors={book.authors} 
-        date={book.date}
-        ownerName={book.ownerName}
-        ownerId={book.ownerId} />
-        )}
-     
+       
+         {bookList}
     </div>)
 }
 

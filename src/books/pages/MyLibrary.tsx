@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { Book } from '../../shared/shared_interfaces';
 import { ReactComponent as VisibleIcon } from '../../assets/visible_icon.svg'
@@ -6,74 +7,50 @@ import AddBookLink from '../components/AddBookLink';
 import BookItemList from '../components/BookItemList';
 import Button from '../../shared/Button';
 import AppearAnimation from '../../shared/AppearAnimation';
+import AuthContext from '../../shared/contexts/authContext';
+import useFirebase from '../../shared/hooks/useFirebase';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import ErrorModal from '../../shared/ErrorModal';
 
 import './MyLibrary.scss';
 
-function MyLibrary() {
-    const dummybooklist= [
-        {
-            id:"sg ersger111sh ",
-            title: "Lord of the Rings",
-            authors: "J.R.R. Tolkien",
-            date: "23.06.2022",
-            cover: "sss",
-            ownerName: "Dominik",
-            ownerId: "sg ersgersh ",
-            borrower: "Dawid"
-        },
-        {
-          id:"sg e22rsgersh ",
-          title: "Lord of the Rings",
-          authors: "J.R.R. Tolkien",
-          date: "23.06.2022",
-          cover: "sss",
-          ownerName: "Dominik",
-          ownerId: "sg ersgersh ",
-          borrower: "Dawid"
-      },
-      {
-        id:"sg ersg444ersh ",
-        title: "Lord of the Rings",
-        authors: "J.R.R. Tolkien",
-        date: "23.06.2022",
-        cover: "sss",
-        ownerName: "Dominik",
-        ownerId: "sg ersgersh ",
-        borrower: "Dawid"
-    },
-    {
-      id:"sg ersgeddd5rsh ",
-      title: "Lord of the Rings",
-      authors: "J.R.R. Tolkien",
-      date: "23.06.2022",
-      cover: "sss",
-      ownerName: "Dominik",
-      ownerId: "sg ersgersh ",
-      borrower: "Dawid"
-  },
-  {
-    id:"sg ersgsgsggggggersh ",
-    title: "Lord of the Rings",
-    authors: "J.R.R. Tolkien",
-    date: "23.06.2022",
-    cover: "sss",
-    ownerName: "Dominik",
-    ownerId: "sg ersgersh ",
-    borrower: "Dawid"
-},
-{
-  id:"sg ersgsgdsgersh ",
-  title: "Lord of the Rings",
-  authors: "J.R.R. Tolkien",
-  date: "23.06.2022",
-  cover: "sss",
-  ownerName: "Dominik",
-  ownerId: "sg ersgersh ",
-  borrower: "Dawid"
-},
-        
 
-    ];
+function MyLibrary() {
+  const auth = useContext(AuthContext);
+ 
+  const [ books, setBooks ] = useState<Book[]>();
+   const { db } = useFirebase();
+  
+   async function getUserBooksById(id: string) {
+     const q = query(collection(db, "books"), where("ownerId", "==", id));
+     const loadedBooks: Book[] | null = [];
+     const querySnapshot = await getDocs(q);
+     querySnapshot.forEach((doc) => {
+      loadedBooks.push({
+        key: doc.id,
+        id: doc.id,
+        title: doc.data().title,
+        authors: doc.data().authors,
+        date: doc.data().date,
+        cover: doc.data().cover,
+        ownerId: doc.data().ownerId,
+        ownerName: doc.data().ownerName,
+        borrower: doc.data().borrower
+      });
+     });
+     setBooks(loadedBooks)
+   }
+   function placeDeleteHandler(deletedBookId: string) {
+     if (books) {
+      setBooks(prevBooks => prevBooks!.filter(book => book.id !== deletedBookId));
+     }
+  }
+
+  useEffect(()=> {
+    getUserBooksById(auth!.id);
+  
+  }, []);
+        
     const buttonContent = (text :string) => (
       <div className='button-content'>
         <div className='button-content__icon'><VisibleIcon /></div>
@@ -83,6 +60,8 @@ function MyLibrary() {
     return (
       <AppearAnimation>
           <div className="my-library__main">
+            {/* {loading && LoadingSpinner}
+            {firebaseError && ErrorModal} */}
             <AddBookLink />
             <div>
               <div className="my-library__buttons">
@@ -101,7 +80,8 @@ function MyLibrary() {
             </div>
             </div>
           </div>
-            <BookItemList items={dummybooklist} />
+          
+            <BookItemList items={books} onDeleteBook={placeDeleteHandler}/>
       </AppearAnimation>
     );
 }
