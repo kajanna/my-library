@@ -10,6 +10,9 @@ import { newBookData } from '../../shared/shared_interfaces';
 import useFirebase from '../../shared/hooks/useFirebase';
 import AuthContext from "../../shared/contexts/authContext";
 import { BookFormFormikValues, editedBookData } from '../../shared/shared_interfaces';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import ErrorModal from '../../shared/ErrorModal';
+
 import './BookForm.scss';
 
 const bookFormSchema = Yup.object().shape({
@@ -29,8 +32,8 @@ interface BookFormProps {
 
 
 function BookForm({ title, initialValues, bookId }: BookFormProps) {
-  const { addNewBook, editBookData } = useFirebase();
-  const user = useContext(AuthContext);
+  const { addNewBook, clearError, editBookData, loading, firebaseError } = useFirebase();
+  const auth = useContext(AuthContext);
 
   function handleSubmit(values: BookFormFormikValues) {
     const date = new Date().toString();
@@ -38,8 +41,8 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
       const bookData: newBookData = {
         title: values.title, 
         authors: values.authors,
-        ownerName: user!.name, 
-        ownerId: user!.id, 
+        ownerName: auth!.name, 
+        ownerId: auth!.id, 
         borrower: values.borrower,
         date: date,
       }
@@ -67,6 +70,8 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
       {({ errors, touched }) => (
         <Card title={title}>
           <Form>
+          {loading && <LoadingSpinner />}
+          {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
             <div className="book-form__main">
               <InputElement
                 label="title"

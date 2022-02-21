@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { Book } from '../../shared/shared_interfaces';
 import { ReactComponent as VisibleIcon } from '../../assets/visible_icon.svg'
@@ -18,38 +17,23 @@ import './MyLibrary.scss';
 function MyLibrary() {
   const auth = useContext(AuthContext);
  
-  const [ books, setBooks ] = useState<Book[]>();
-   const { db } = useFirebase();
+  const [ loadedBooks, setLoadedBooks ] = useState<Book[] | null | undefined>();
+   const { getUserBooksById, books, loading, firebaseError } = useFirebase();
   
-   async function getUserBooksById(id: string) {
-     const q = query(collection(db, "books"), where("ownerId", "==", id));
-     const loadedBooks: Book[] | null = [];
-     const querySnapshot = await getDocs(q);
-     querySnapshot.forEach((doc) => {
-      loadedBooks.push({
-        key: doc.id,
-        id: doc.id,
-        title: doc.data().title,
-        authors: doc.data().authors,
-        date: doc.data().date,
-        cover: doc.data().cover,
-        ownerId: doc.data().ownerId,
-        ownerName: doc.data().ownerName,
-        borrower: doc.data().borrower
-      });
-     });
-     setBooks(loadedBooks)
-   }
+
    function placeDeleteHandler(deletedBookId: string) {
-     if (books) {
-      setBooks(prevBooks => prevBooks!.filter(book => book.id !== deletedBookId));
+     if (loadedBooks) {
+      setLoadedBooks(prevBooks => prevBooks!.filter(book => book.id !== deletedBookId));
      }
   }
 
   useEffect(()=> {
     getUserBooksById(auth!.id);
-  
-  }, []);
+  }, [auth, getUserBooksById]);
+
+  useEffect(()=> {
+    setLoadedBooks(books);
+  }, [ books ]);
         
     const buttonContent = (text :string) => (
       <div className='button-content'>
@@ -60,8 +44,8 @@ function MyLibrary() {
     return (
       <AppearAnimation>
           <div className="my-library__main">
-            {/* {loading && LoadingSpinner}
-            {firebaseError && ErrorModal} */}
+            {loading && LoadingSpinner}
+            {firebaseError && ErrorModal}
             <AddBookLink />
             <div>
               <div className="my-library__buttons">
@@ -81,7 +65,7 @@ function MyLibrary() {
             </div>
           </div>
           
-            <BookItemList items={books} onDeleteBook={placeDeleteHandler}/>
+            <BookItemList items={loadedBooks} onDeleteBook={placeDeleteHandler}/>
       </AppearAnimation>
     );
 }
