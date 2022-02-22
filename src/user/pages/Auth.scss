@@ -1,7 +1,14 @@
 @use '../../shared/mediaq';
 
+.auth{
+    @include mediaq.for-desktop-up  {
+        display: flex;
+    }
+}
+
 .auth-element {
     @include mediaq.for-tablet-desktop-up {
         margin: 0 4rem;
-    } 
+    }
+   
 }

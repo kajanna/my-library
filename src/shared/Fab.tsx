@@ -1,9 +1,18 @@
 import React from 'react';
+import { Link }from 'react-router-dom'
+import './Fab.scss'
 
-function Fab() {
+interface FabProps {
+    to: string,
+    destination: "up" | "add" | "library"
+}
+
+function Fab({ to, destination }:FabProps) {
     return (
-        <div>
+        <div className='fab'>
+            <Link to={to}>
             Fab
+            </Link>
         </div>
     );
 }

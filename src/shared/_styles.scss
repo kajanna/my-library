@@ -14,5 +14,5 @@ $borderDanger : 3px solid colors.$danger;
 	letter-spacing: 2px;
 }
 @mixin backdrop {
-	background-color: rgba($color: colors.$main, $alpha: .7);
+	background-color: rgba($color: colors.$text, $alpha: .7);
 }

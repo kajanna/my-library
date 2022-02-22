@@ -5,13 +5,14 @@
     border: 2px solid colors.$main;
     border-left: none;
     z-index: 6;
-    position: fixed;
+    position: absolute;
     top:78px;
     left: 0;
     padding: 30px;
     border-radius: 0 0 40px 0;
     transform: translateX(-400px);
     transition: transform .4s ease-in;
+    z-index: 4;
 }
 .side-menu--show {
     transform: none ;

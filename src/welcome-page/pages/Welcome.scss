@@ -1,0 +1,101 @@
+@use '../../shared/styles';
+@use '../../shared/colors';
+@use '../../shared/mediaq';
+
+.welcome {
+    position: relative;
+}
+
+.welcome__info {
+    position: absolute;
+    top:0;
+    left: 0;
+    @include mediaq.for-tablet-desktop-up {
+       position: static;
+       max-width: 466px; 
+    }
+}
+.welcome__text {
+    padding-bottom: 2rem;
+    @include mediaq.for-tablet-desktop-up {
+        padding-bottom: 4rem;
+     }
+}
+.welcome__register {
+    @include mediaq.for-tablet-desktop-up {
+        max-width: 50%; 
+        margin-bottom: 4rem;
+     }
+}
+.welcome__picture {
+    @include mediaq.for-tablet-desktop-up {
+        position: absolute;
+        width: 40rem;
+        top: 8rem;
+        left: calc(50% - 20rem); 
+     }
+}
+
+//picture animation
+#blobBrown {
+    animation: bumpingBlobs 4s linear alternate infinite;
+}
+#blobGreen {
+    animation: bumpingBlobs 4s 2s linear alternate infinite;
+}
+#blobBlue {
+    animation: bumpingBlobs 4s linear alternate infinite;
+}
+#blobBig {
+    animation: bumpingBlobs 8s linear alternate infinite;
+}
+#steam1 {
+    animation: scaleElement 2s linear alternate infinite;
+}
+#steam2 {
+    animation: scaleElement 2s linear alternate infinite;
+}
+#steam3 {
+    animation: scaleElement 2s linear alternate infinite;
+}
+#lamp {
+    animation: rotateElement 4s linear alternate infinite;
+}
+#lamp2 {
+    animation: rotateElement 4s linear alternate infinite;
+}
+
+@keyframes bumpingBlobs {
+    0% {
+        transform: none;
+    }
+    50% {
+        transform: translateY(-15px)
+    }
+    100% {
+        transform: none;
+    }
+}
+@keyframes scaleElement {
+    0% {
+        transform: none;
+    }
+    50% {
+        transform: scaleY(.95)
+    }
+    100% {
+        transform: none;
+    }    
+}
+@keyframes rotateElement {
+    0% {
+        transform: none;
+    }
+    50% {
+        transform:rotate(-1deg)
+      
+    }
+    100% {
+        transform: none;
+    } 
+}
