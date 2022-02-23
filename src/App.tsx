@@ -18,15 +18,14 @@ function App() {
   const auth = useContext(AuthContext);
 
   let routes;
-  if (auth?.id) {
+  if (auth) {
     routes = (
       <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/auth" element={<Auth />} />
           <Route path="/my-library" element={<MyLibrary />} />
           <Route path="/add-new-book" element={<AddNewBook />} />
           <Route path="/edit-book-data/:bookId" element={<EditBookData />} />
-          <Route path="/lend-book" element={<LentBook />} />
+          <Route path="/lend-book/:bookId" element={<LentBook />} />
           <Route path="/borrow-book" element={<BorrowBook />} />
         </Routes>
     )
