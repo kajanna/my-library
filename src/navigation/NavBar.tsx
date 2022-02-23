@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import Menu from './Menu';
 import SideMenu from './SideMenu';
 import { ReactComponent as BookMark } from '../assets/bookMarkEl.svg'
 import BackDrop from '../shared/BackDrop';

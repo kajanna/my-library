@@ -7,18 +7,14 @@
 }
 
 .welcome__info {
-    position: absolute;
-    top:0;
-    left: 0;
     @include mediaq.for-tablet-desktop-up {
        position: static;
-       max-width: 466px; 
+       max-width: 466px;
     }
 }
 .welcome__text {
-    padding-bottom: 2rem;
     @include mediaq.for-tablet-desktop-up {
-        padding-bottom: 4rem;
+        padding: 1rem;
      }
 }
 .welcome__register {
@@ -26,6 +22,9 @@
         max-width: 50%; 
         margin-bottom: 4rem;
      }
+}
+.welcome--hide {
+    display: none;
 }
 .welcome__picture {
     @include mediaq.for-tablet-desktop-up {

@@ -4,10 +4,11 @@
     background-color: colors.$bg;
     border: 2px solid colors.$main;
     border-left: none;
-    z-index: 6;
+    z-index: 12;
     position: absolute;
     top:78px;
     left: 0;
+    width: 160px;
     padding: 30px;
     border-radius: 0 0 40px 0;
     transform: translateX(-400px);

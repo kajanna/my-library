@@ -75,7 +75,7 @@ function useAuth() {
     }
 
     
-    return { loading, authError, register, login, logout,  clearAuthError }
+    return { loading, authError, register, login, logout, clearAuthError }
 }
 
 export default useAuth;
