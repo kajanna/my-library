@@ -13,24 +13,34 @@ function EditBookData() {
     const [ formValues, setFormValues ] = useState<BookFormFormikValues>({
         title: "",
         authors: "",
-        borrower:""
+        borrowerName:""
     });
     const { bookId } = useParams<string>();
-    const { getEditedBook, clearError, loading, firebaseError, editedBook } = useFirebase();
+    const { getEditedBook, clearError, loading, firebaseError } = useFirebase();
     
-
     
-    useEffect(()=>{
-        if (bookId) {
-        getEditedBook(bookId);
-        }
-    },[bookId, getEditedBook]);
+    useEffect(() => {
+      async function getInitialFormValues() {
+        try {
+          if (bookId) {
+            const book = await getEditedBook(bookId);
+            if (book) {
+              setFormValues({
+                title: book.title,
+                authors: book.authors,
+                borrowerName: book.borrowerName,
+              });
+            }
+          }
+        } catch (error) {}
+      }
+      getInitialFormValues();
+      return () => {
+        getInitialFormValues();
+      };
+    }, []);
 
-    useEffect(()=>{
-        if (editedBook) {
-            setFormValues(editedBook)
-        }
-    },[editedBook])
+
 
     return (
         <>

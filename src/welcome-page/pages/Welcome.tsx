@@ -18,11 +18,15 @@ function Welcome() {
             eligendi maiores autem id aliquam cumque deleniti sunt, officia
             ratione incidunt nesciunt blanditiis expedita consequuntur?
           </div>
-          <div className={auth ? "welcome--hide" : "welcome__register"}>
-            <Link to="/auth">
-              <Button buttonText="Register" />
-            </Link>
-          </div>
+          {auth ? (
+            <div className="welcome__register"></div>
+          ) : (
+            <div className="welcome__register">
+              <Link to="/auth">
+                <Button buttonText="Register" />
+              </Link>
+            </div>
+          )}
           <div className="welcome__picture">
             <WelcomeBG />
           </div>

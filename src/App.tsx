@@ -21,12 +21,12 @@ function App() {
   if (auth) {
     routes = (
       <Routes>
-          <Route path="/" element={<Welcome />} />
           <Route path="/my-library" element={<MyLibrary />} />
           <Route path="/add-new-book" element={<AddNewBook />} />
           <Route path="/edit-book-data/:bookId" element={<EditBookData />} />
           <Route path="/lend-book/:bookId" element={<LentBook />} />
           <Route path="/borrow-book" element={<BorrowBook />} />
+          <Route path="/" element={<Welcome />} />
         </Routes>
     )
   } else {

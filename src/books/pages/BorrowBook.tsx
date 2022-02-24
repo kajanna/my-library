@@ -7,18 +7,19 @@ import Card from '../../shared/Card';
 import InputElement from '../../shared/Form/InputElement';
 import Button from '../../shared/Button';
 import AppearAnimation from '../../shared/AppearAnimation';
-import { newBookData } from '../../shared/shared_interfaces';
 import AuthContext from '../../shared/contexts/authContext';
 import useFirebase from '../../shared/hooks/useFirebase';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorModal from '../../shared/ErrorModal';
+
+import { Book } from '../../shared/shared_interfaces'
 
 const borrowBookSchema = Yup.object().shape({
   title: Yup.string()
   .required("required"),
   authors: Yup.string()
   .required("required"),
-  owner: Yup.string()
+  ownerName: Yup.string()
   .required("required") 
 });
 
@@ -34,13 +35,12 @@ function BorrowBook() {
 
   function handleSubmit(values: BorrowBookFormikValues) {
     const date = new Date().toString();
-    const bookData: newBookData = {
+    const bookData: Book = {
       title: values.title,
       authors: values.authors,
       ownerName: values.owner,
       ownerId: values.owner,
-      borrower: auth!.name,
-      date: date,
+      borrowerName: auth!.name,
     };
     addNewBook(bookData);
   }

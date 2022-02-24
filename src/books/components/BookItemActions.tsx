@@ -16,7 +16,7 @@ function BookItemActions({ onOpenDeleteModal, bookId }: BookItemActionsProps ) {
   return (
     <div className="book-item-actions">
       <div className="book-item-actions__icons">
-        <Link to="/lend-book">
+        <Link to={`/lend-book/${bookId}`}>
         <BorrowIcon  />
         </Link>
       </div>

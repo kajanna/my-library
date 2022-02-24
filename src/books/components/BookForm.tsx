@@ -6,10 +6,9 @@ import * as Yup from 'yup';
 import Card from '../../shared/Card';
 import InputElement from '../../shared/Form/InputElement';
 import Button from '../../shared/Button';
-import { newBookData } from '../../shared/shared_interfaces';
+import { Book, EditedBookData, BookFormFormikValues } from '../../shared/shared_interfaces';
 import useFirebase from '../../shared/hooks/useFirebase';
 import AuthContext from "../../shared/contexts/authContext";
-import { BookFormFormikValues, editedBookData } from '../../shared/shared_interfaces';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorModal from '../../shared/ErrorModal';
 
@@ -20,7 +19,7 @@ const bookFormSchema = Yup.object().shape({
     .required("required"),
   authors: Yup.string()
     .required("required"),
-  borrower: Yup.string()
+  borrowerName: Yup.string()
 });
 
 
@@ -36,23 +35,20 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
   const auth = useContext(AuthContext);
 
   function handleSubmit(values: BookFormFormikValues) {
-    const date = new Date().toString();
     if (title === "Add new book") {
-      const bookData: newBookData = {
+      const bookData: Book = {
         title: values.title, 
         authors: values.authors,
         ownerName: auth!.name, 
         ownerId: auth!.id, 
-        borrower: values.borrower,
-        date: date,
+        borrowerName: values.borrowerName,
       }
       addNewBook(bookData);
     } if (bookId) {
-      const editedbookData: editedBookData = {
+      const editedbookData: EditedBookData = {
         title: values.title, 
         authors: values.authors,
-        borrower: values.borrower,
-        date: date,
+        borrowerName: values.borrowerName,
         id: bookId
       }
       editBookData(editedbookData);
@@ -91,8 +87,8 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
               />
               <InputElement
                 label="borrower"
-                id="borrower"
-                name="borrower"
+                id="borrowerNamer"
+                name="borrowerName"
                 type="text"
                 errors={errors}
                 touched={touched}
@@ -100,7 +96,7 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
               {/* <div>AddBookCover</div> */}
             </div>
             <div className="book-form__button-section">
-              <Button buttonText="add" type="submit" />
+              <Button buttonText={title === "Add new book"? "add" : "edit"} type="submit" />
             </div>
             
           </Form>

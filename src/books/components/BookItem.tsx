@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-
-import { Book } from '../../shared/shared_interfaces';
+import { useState } from 'react';
 
 import BookItemActions from './BookItemActions';
 import Card from '../../shared/Card';
@@ -10,7 +8,7 @@ import './BookItem.scss'
 import DeleteModal from '../../shared/DeleteModal';
 
 interface BookItemProps {
-  borrower?: string | null, 
+  borrowerName?: string | null, 
   title: string, 
   authors:  string, 
   date:string, 
@@ -20,10 +18,11 @@ interface BookItemProps {
   onDeleteBook:(deletedBookId: string) => void
 }
 
-function BookItem({ borrower, title, authors, date, id, onDeleteBook }: BookItemProps) {
+function BookItem({ borrowerName, title, authors, date, id, onDeleteBook }: BookItemProps) {
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
   const bookItemActions = <BookItemActions bookId={id} onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
+
   return (
     <>
     <div className="book-item">
@@ -35,7 +34,7 @@ function BookItem({ borrower, title, authors, date, id, onDeleteBook }: BookItem
             <div className="book-item__info-items">{date}</div>
             <div className="book-item__info-items">
               <div>borrower:</div>
-              <div>{borrower}</div>
+              <div>{borrowerName}</div>
             </div>
           </div>
           <div className="book-item__photo"></div>

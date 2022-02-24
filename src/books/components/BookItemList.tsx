@@ -15,14 +15,14 @@ function BookItemList({ items, onDeleteBook }: BookItemListProps) {
     if (items) {
       bookList = items.map((book: Book) => (
         <BookItem
-          key={book.key}
-          id={book.id}
-          borrower={book.borrower}
+          key={book.id}
+          id={book.id!}
+          borrowerName={book.borrowerName}
           title={book.title}
           authors={book.authors}
-          date={book.date}
+          date={book.date!}
           ownerName={book.ownerName}
-          ownerId={book.ownerId}
+          ownerId={book.ownerId!}
           onDeleteBook={onDeleteBook}
         />
       ));

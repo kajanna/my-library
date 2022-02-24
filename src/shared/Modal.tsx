@@ -13,9 +13,10 @@ interface ModalProps {
     error?: boolean
 }
 
-function Modal({ children, title, error } : ModalProps) {
+function Modal({ children, title, onCloseModal, error } : ModalProps) {
     const modal = (
       <>
+      <BackDrop close={onCloseModal}/>
         <div className="modal_bg">
             <AppearAnimation>
           <div className="modal">

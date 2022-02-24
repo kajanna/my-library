@@ -7,31 +7,43 @@ import * as Yup from 'yup';
 import Card from '../../shared/Card';
 import InputElement from '../../shared/Form/InputElement';
 import Button from '../../shared/Button';
+import useFirebase from '../../shared/hooks/useFirebase';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import ErrorModal from '../../shared/ErrorModal';
+import { EditedBookData } from '../../shared/shared_interfaces'
 
 import './LendBookForm.scss';
 
 const lendBookSchema = Yup.object().shape({
-  borrower: Yup.string()
-    .required("required"),
+  borrowerName: Yup.string(),
 });
 
-interface LendBookFormProps {
-    title: string,
-    author: string,
-}
+
 interface LendBookFormikValues {
-  borrower: string
+  borrowerName: string | null | undefined
 }
 
-function LendBookForm({ title, author}: LendBookFormProps) {
+function LendBookForm({ authors, title, borrowerName, id }: EditedBookData) {
+  const { editBookData, clearError, loading, firebaseError } = useFirebase();
+
   function handleSubmit(values: LendBookFormikValues) {
-    console.log(values);
+    const editedData = {
+      authors, 
+      title, 
+      borrowerName: values.borrowerName, 
+      id
+    }
+    editBookData(editedData)
   }
   return (
+    <>
+    {loading && <LoadingSpinner />}
+    {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
     <Formik
+      enableReinitialize
       validationSchema={lendBookSchema}
       initialValues={{
-        borrower: "",
+        borrowerName: borrowerName,
       }}
       onSubmit={handleSubmit}
     >
@@ -43,14 +55,19 @@ function LendBookForm({ title, author}: LendBookFormProps) {
                 <p>
                   <span>{title}</span>
                   <br></br>
-                  {author}
+                  {authors}
+                  <br></br>
+                  <br></br>
+                  former borrower:
+                  <br></br> 
+                  {borrowerName}
                 </p>
               </div>
               <div className="lend-book-form-main__form">
                 <InputElement
                   label="borrower"
-                  id="borrower"
-                  name="borrower"
+                  id="borrowerName"
+                  name="borrowerName"
                   type="text"
                   errors={errors}
                   touched={touched}
@@ -62,6 +79,7 @@ function LendBookForm({ title, author}: LendBookFormProps) {
         </Card>
       )}
     </Formik>
+    </>
   );
 }
 
