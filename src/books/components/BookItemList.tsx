@@ -18,6 +18,7 @@ function BookItemList({ items, onDeleteBook }: BookItemListProps) {
           key={book.id}
           id={book.id!}
           borrowerName={book.borrowerName}
+          borrowerId={book.borrowerId}
           title={book.title}
           authors={book.authors}
           date={book.date!}
@@ -30,7 +31,6 @@ function BookItemList({ items, onDeleteBook }: BookItemListProps) {
       <div>No books!</div>;
     }
     return (<div className='book-list'>
-       
          {bookList}
     </div>)
 }

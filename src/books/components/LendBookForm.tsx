@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -18,23 +19,29 @@ const lendBookSchema = Yup.object().shape({
   borrowerName: Yup.string(),
 });
 
-
 interface LendBookFormikValues {
   borrowerName: string | null | undefined
 }
 
 function LendBookForm({ authors, title, borrowerName, id }: EditedBookData) {
+  const navigate = useNavigate();
   const { editBookData, clearError, loading, firebaseError } = useFirebase();
 
-  function handleSubmit(values: LendBookFormikValues) {
+  async function handleSubmit(values: LendBookFormikValues) {
     const editedData = {
       authors, 
       title, 
       borrowerName: values.borrowerName, 
       id
     }
-    editBookData(editedData)
+    try {
+      await editBookData(editedData);
+      if (!firebaseError) {
+        navigate('/my-library');
+      }
+    } catch (error)  {}
   }
+  
   return (
     <>
     {loading && <LoadingSpinner />}
@@ -58,9 +65,9 @@ function LendBookForm({ authors, title, borrowerName, id }: EditedBookData) {
                   {authors}
                   <br></br>
                   <br></br>
-                  former borrower:
+                  {borrowerName ? "former borrower:" : "currently in:"}
                   <br></br> 
-                  {borrowerName}
+                  {borrowerName ?  borrowerName : "your library"}
                 </p>
               </div>
               <div className="lend-book-form-main__form">

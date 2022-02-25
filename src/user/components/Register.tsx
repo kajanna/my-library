@@ -11,13 +11,13 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 
 const registerSchema = Yup.object().shape({
     name: Yup.string()
-      .required("required"),
+      .required("this field is required"),
     email: Yup.string()
-      .email("incorrect email")
-      .required("required"),
+      .email("email address is incorrect")
+      .required("this field is required"),
     password: Yup.string()
       .min(8, "password should be at least 8 characters long")
-      .required("required")
+      .required("this field is required")
   });
 
   interface RegisterFormikValues {

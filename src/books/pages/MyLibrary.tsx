@@ -18,6 +18,7 @@ function MyLibrary() {
   const auth = useContext(AuthContext);
 
   const [loadedBooks, setLoadedBooks] = useState<Book[] | null | undefined>();
+  const [filtredBooks, setFiltredBooks] = useState<Book[] | null | undefined>();
   const { getUserBooksById, clearError, loading, firebaseError } =   useFirebase();
 
   function placeDeleteHandler(deletedBookId: string) {
@@ -33,6 +34,7 @@ function MyLibrary() {
       try {
         const books = await getUserBooksById(auth!.id);
         setLoadedBooks(books);
+        setFiltredBooks(books);
       } catch (err) {}
     }
     setUsersBook();
@@ -47,6 +49,22 @@ function MyLibrary() {
       <div>{text}</div>
     </div>
   );
+  function showAllBooks(){
+    setFiltredBooks(loadedBooks);
+  }
+  function showLentBooks() {
+    if (loadedBooks) {
+      const filtredBooks = loadedBooks.filter(book => book.ownerId == auth?.id);
+      setFiltredBooks(filtredBooks);
+    }
+  }
+  function showBorrowedBooks() {
+    if (loadedBooks) {
+      const filtredBooks = loadedBooks.filter(book => book.borrowerId == auth?.id);
+      setFiltredBooks(filtredBooks);
+    }
+  }
+  
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -60,21 +78,20 @@ function MyLibrary() {
             <div className="my-library__buttons">
               <Button
                 buttonText={buttonContent("all books")}
-                onClick={() => console.log("show all books")}
+                onClick={showAllBooks}
               />
               <Button
                 buttonText={buttonContent("lent books")}
-                onClick={() => console.log("show Lent books")}
+                onClick={showLentBooks}
               />
               <Button
                 buttonText={buttonContent("borrowed books")}
-                onClick={() => console.log("show Borrowed books")}
+                onClick={showBorrowedBooks}
               />
             </div>
           </div>
-          
         </div>
-       <BookItemList items={loadedBooks} onDeleteBook={placeDeleteHandler}/>
+       <BookItemList items={filtredBooks} onDeleteBook={placeDeleteHandler}/>
       </AppearAnimation>
     </>
   );

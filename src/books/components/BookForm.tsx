@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import {Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -13,12 +14,13 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorModal from '../../shared/ErrorModal';
 
 import './BookForm.scss';
+import { Navigate } from 'react-router-dom';
 
 const bookFormSchema = Yup.object().shape({
   title: Yup.string()
-    .required("required"),
+    .required("this field is required"),
   authors: Yup.string()
-    .required("required"),
+    .required("this field is required"),
   borrowerName: Yup.string()
 });
 
@@ -31,10 +33,11 @@ interface BookFormProps {
 
 
 function BookForm({ title, initialValues, bookId }: BookFormProps) {
+  const navigate = useNavigate();
   const { addNewBook, clearError, editBookData, loading, firebaseError } = useFirebase();
   const auth = useContext(AuthContext);
 
-  function handleSubmit(values: BookFormFormikValues) {
+  async function handleSubmit(values: BookFormFormikValues) {
     if (title === "Add new book") {
       const bookData: Book = {
         title: values.title, 
@@ -43,7 +46,13 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
         ownerId: auth!.id, 
         borrowerName: values.borrowerName,
       }
-      addNewBook(bookData);
+      try {
+        await addNewBook(bookData);
+        if (!firebaseError) {
+          navigate('/my-library');
+        }
+      } catch(error) {}
+      
     } if (bookId) {
       const editedbookData: EditedBookData = {
         title: values.title, 
@@ -51,12 +60,19 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
         borrowerName: values.borrowerName,
         id: bookId
       }
-      editBookData(editedbookData);
-    }
-    
+      try {
+        await editBookData(editedbookData);
+        if (!firebaseError) {
+          navigate('/my-library');
+        }
+      } catch(error) {}
+    } 
   }
 
   return (
+    <>
+     {loading && <LoadingSpinner />}
+     {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
     <Formik
       validationSchema={bookFormSchema}
       enableReinitialize
@@ -66,8 +82,6 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
       {({ errors, touched }) => (
         <Card title={title}>
           <Form>
-          {loading && <LoadingSpinner />}
-          {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
             <div className="book-form__main">
               <InputElement
                 label="title"
@@ -103,6 +117,7 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
         </Card>
       )}
     </Formik>
+    </>
   );
 }
 

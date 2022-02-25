@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext, ReactNode } from 'react';
 
 import BookItemActions from './BookItemActions';
 import Card from '../../shared/Card';
-
+import DeleteModal from '../../shared/DeleteModal';
+import AuthContext from '../../shared/contexts/authContext';
 
 import './BookItem.scss'
-import DeleteModal from '../../shared/DeleteModal';
+
 
 interface BookItemProps {
+  borrowerId?: string | null, 
   borrowerName?: string | null, 
   title: string, 
   authors:  string, 
@@ -18,11 +20,26 @@ interface BookItemProps {
   onDeleteBook:(deletedBookId: string) => void
 }
 
-function BookItem({ borrowerName, title, authors, date, id, onDeleteBook }: BookItemProps) {
+function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerName, ownerId, onDeleteBook }: BookItemProps) {
+  const auth = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
   const bookItemActions = <BookItemActions bookId={id} onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
-
+  let whereIsTheBook:ReactNode;
+  if (ownerId == auth?.id) {
+    whereIsTheBook = (
+    <div className="book-item__info-items">
+      <div>{borrowerName ? "borrower:" : "in your library"}</div>
+      {borrowerName && <div>{borrowerName}</div>}
+  </div>);
+  }
+  if (borrowerId == auth?.id) {
+    whereIsTheBook = (
+    <div className="book-item__info-items">
+      <div>owner:</div>
+      <div>{ownerName}</div>
+  </div>);
+  }
   return (
     <>
     <div className="book-item">
@@ -32,10 +49,7 @@ function BookItem({ borrowerName, title, authors, date, id, onDeleteBook }: Book
               <div className="book-item__title">{title}</div>
               <div>{authors}</div> 
             <div className="book-item__info-items">{date}</div>
-            <div className="book-item__info-items">
-              <div>borrower:</div>
-              <div>{borrowerName}</div>
-            </div>
+            {whereIsTheBook}
           </div>
           <div className="book-item__photo"></div>
         </div>

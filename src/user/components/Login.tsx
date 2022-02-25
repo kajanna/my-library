@@ -13,11 +13,11 @@ import ErrorModal from '../../shared/ErrorModal';
 
 const loginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("incorrect email")
-      .required("required"),
+      .email("email address is incorrect")
+      .required("this field is required"),
     password: Yup.string()
       .min(8, "password should be at least 8 characters long")
-      .required("required")
+      .required("this field is required")
   });
 
 interface LoginFormikValues {

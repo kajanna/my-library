@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import {
-    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, getDocFromServer
   } from 'firebase/firestore';
 
 import { EditedBookData, Book, BookFormFormikValues } from '../shared_interfaces'
@@ -17,25 +17,39 @@ function useFirebase() {
 
   const navigate = useNavigate();
   
+  //hepler function for - getUserBooksById
+  function setUserBooksData(querySnapshot: QuerySnapshot<DocumentData>) {
+    const loadedBooks: Book[] | null = [];
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      const day = doc.data().date.toDate().getDate().toString();
+      const month = (+doc.data().date.toDate().getMonth() + 1).toString();
+      const year = doc.data().date.toDate().getFullYear().toString();
+      const date = [day, month, year].join(".");
+      loadedBooks.push({
+        id: doc.id,
+        title: doc.data().title,
+        authors: doc.data().authors,
+        date: date,
+        cover: doc.data().cover,
+        ownerId: doc.data().ownerId,
+        ownerName: doc.data().ownerName,
+        borrowerName: doc.data().borrowerName,
+        borrowerId: doc.data().borrowerId,
+      });
+    })
+    return loadedBooks
+  }
 
   async function getUserBooksById(id: string) {
     setLoading(true);
-    const q = query(collection(db, "books"), where("ownerId", "==", id));
-    const loadedBooks: Book[] | null = [];
+    const lentBooksQuery = query(collection(db, "books"), where("ownerId", "==", id));
+    const borrowedBooksQuery = query(collection(db, "books"), where("borrowerId", "==", id));
     try {
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        loadedBooks.push({
-          id: doc.id,
-          title: doc.data().title,
-          authors: doc.data().authors,
-          date: doc.data().date.toDate().toString(),
-          cover: doc.data().cover,
-          ownerId: doc.data().ownerId,
-          ownerName: doc.data().ownerName,
-          borrowerName: doc.data().borrowerName,
-        });
-      });
+      const lentBooksSnapshot = await getDocs(lentBooksQuery);
+      const borrowedBooksSnapshot = await getDocs(borrowedBooksQuery);
+      const lentBooks = setUserBooksData(lentBooksSnapshot);
+      const borrowedBooks = setUserBooksData(borrowedBooksSnapshot);
+      const loadedBooks = [...lentBooks, ...borrowedBooks]
       setLoading(false);
       return loadedBooks;
     } catch (error) {
@@ -73,6 +87,7 @@ function useFirebase() {
     ownerName,
     ownerId,
     borrowerName,
+    borrowerId,
   }: Book) {
     setLoading(true);
     const newBook = {
@@ -81,14 +96,14 @@ function useFirebase() {
       ownerName,
       ownerId,
       borrowerName: borrowerName ? borrowerName : '',
-      BorrowerId: '',
+      borrowerId: borrowerId ? borrowerId : '',
       date: serverTimestamp(),
     }
+    console.log(newBook)
     try {
       const addNewBook = await addDoc(bookRef, newBook);
       if (addNewBook) {
         setLoading(false);
-        navigate("/my-library");
       }
     } catch(error) {
         setFirebasError('Something went wrong. Please try again');

@@ -1,9 +1,10 @@
-import React from 'react';
-
 import Modal from './Modal';
 import useFirebase from './hooks/useFirebase';
+import LoadingSpinner from './LoadingSpinner';
+import ErrorModal from './ErrorModal';
 
 import './DeleteModal.scss'
+
 
 interface DeleteModalProps {
     onCloseDeleteModal: ()=> void,
@@ -18,17 +19,22 @@ function DeleteModal({
   itemId,
   onDeleteBook,
 }: DeleteModalProps) {
-  const { deleteBook } = useFirebase();
+  const { deleteBook, loading, firebaseError, clearError } = useFirebase();
 
   async function deleteBookHandler(itemId: string) {
     try {
-      deleteBook(itemId);
-      onDeleteBook(itemId);
-      onCloseDeleteModal();
+      await deleteBook(itemId);
+      if (!firebaseError) {
+        onDeleteBook(itemId);
+        onCloseDeleteModal();
+      }
     } catch (err) {}
   }
 
   return (
+    <>
+     {loading && <LoadingSpinner />}
+     {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
     <Modal title="Delete book" onCloseModal={onCloseDeleteModal}>
       <div>Do you want to delete {title} from your Library?</div>
       <div className="delete-modal-button-section">
@@ -46,6 +52,7 @@ function DeleteModal({
         </button>
       </div>
     </Modal>
+    </>
   );
 }
 
