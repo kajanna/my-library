@@ -9,17 +9,18 @@ import { ReactComponent as DeleteIcon } from '../../assets/delete_icon.svg'
 import './BookItemActions.scss';
 interface BookItemActionsProps {
   onOpenDeleteModal: () => void,
-  bookId: string | null | undefined
+  bookId: string | null | undefined,
+  isNotUsersBook: boolean
 }
 
-function BookItemActions({ onOpenDeleteModal, bookId }: BookItemActionsProps ) {
+function BookItemActions({ onOpenDeleteModal, bookId, isNotUsersBook }: BookItemActionsProps ) {
   return (
     <div className="book-item-actions">
-      <div className="book-item-actions__icons">
+      { isNotUsersBook && <div className="book-item-actions__icons">
         <Link to={`/lend-book/${bookId}`}>
         <BorrowIcon  />
         </Link>
-      </div>
+      </div>}
       <div className="book-item-actions__icons" >
         <Link to={`/edit-book-data/${bookId}`}>
         <EditIcon />

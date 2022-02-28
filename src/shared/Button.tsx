@@ -6,12 +6,16 @@ interface ButtonProps {
     buttonText: string | JSX.Element | JSX.Element[],
     onClick?: () => void | null,
     type?: "button" | "submit" | "reset" | undefined,
-    disabled?: boolean
+    isDisabled?: boolean,
 }
 
-function Button({ buttonText,  onClick, type, disabled }: ButtonProps) {
+function Button({ buttonText,  onClick, type, isDisabled }: ButtonProps) {
     return (
-        <button className="button" type={type} onClick={onClick} disabled={disabled}>
+        <button 
+            className={`button ${isDisabled && "button--disabled"}`} 
+            type={type} onClick={onClick} 
+            disabled={isDisabled}
+            >
             {buttonText}
         </button>
     );

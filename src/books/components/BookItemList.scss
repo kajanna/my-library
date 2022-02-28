@@ -1,4 +1,5 @@
 @use '../../shared/mediaq';
+@use '../../shared/colors';
 
 .book-list {
     @include mediaq.for-desktop-up {
@@ -6,6 +7,17 @@
         column-gap: 4rem;
         grid-template-columns: 1fr 1fr;
         margin-top: 3rem;
-    }
-    
+    }    
+}
+.book-list__info {
+    color: colors.$main;
+    font-weight: 600;
+    margin-top: 1.8rem;
+    display: flex;
+    justify-content: center;
+    @include mediaq.for-desktop-up {
+        justify-content: flex-start;
+        margin-top: 0rem;
+        font-size: larger;
+    }    
 }

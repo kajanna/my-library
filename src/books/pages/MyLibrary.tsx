@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import { Book } from '../../shared/shared_interfaces';
-import { ReactComponent as VisibleIcon } from '../../assets/visible_icon.svg'
 import AddBookLink from '../components/AddBookLink';
 import BookItemList from '../components/BookItemList';
-import Button from '../../shared/Button';
+import MyLibraryButton from "../../shared/MyLibraryButton";
 import AppearAnimation from '../../shared/AppearAnimation';
 import AuthContext from '../../shared/contexts/authContext';
 import useFirebase from '../../shared/hooks/useFirebase';
@@ -19,15 +18,35 @@ function MyLibrary() {
 
   const [loadedBooks, setLoadedBooks] = useState<Book[] | null | undefined>();
   const [filtredBooks, setFiltredBooks] = useState<Book[] | null | undefined>();
+  const [ activeButtonId, setActiveButtonId ] = useState<string>();
   const { getUserBooksById, clearError, loading, firebaseError } =   useFirebase();
 
-  function placeDeleteHandler(deletedBookId: string) {
-    if (loadedBooks) {
+  function deleteBookHandler(deletedBookId: string) {
       setLoadedBooks((prevBooks) =>
         prevBooks!.filter((book) => book.id !== deletedBookId)
       );
+      setFiltredBooks((prevBooks) =>
+      prevBooks!.filter((book) => book.id !== deletedBookId)
+    );
     }
-  }
+    function showAllBooks(buttonId:string){
+      setActiveButtonId(buttonId);
+      setFiltredBooks(loadedBooks);
+    }
+    function showLentBooks(buttonId:string) {
+      setActiveButtonId(buttonId);
+      if (loadedBooks) {
+        const filtredBooks = loadedBooks.filter(book => book.ownerId == auth?.id);
+        setFiltredBooks(filtredBooks);
+      }
+    }
+    function showBorrowedBooks(buttonId:string) {
+      setActiveButtonId(buttonId);
+      if (loadedBooks) {
+        const filtredBooks = loadedBooks.filter(book => book.borrowerId == auth?.id);
+        setFiltredBooks(filtredBooks);
+      }
+    }
 
   useEffect(() => {
     async function setUsersBook() {
@@ -38,33 +57,11 @@ function MyLibrary() {
       } catch (err) {}
     }
     setUsersBook();
-    return () => {setUsersBook()}
   }, []);
 
-  const buttonContent = (text: string) => (
-    <div className="button-content">
-      <div className="button-content__icon">
-        <VisibleIcon />
-      </div>
-      <div>{text}</div>
-    </div>
-  );
-  function showAllBooks(){
-    setFiltredBooks(loadedBooks);
-  }
-  function showLentBooks() {
-    if (loadedBooks) {
-      const filtredBooks = loadedBooks.filter(book => book.ownerId == auth?.id);
-      setFiltredBooks(filtredBooks);
-    }
-  }
-  function showBorrowedBooks() {
-    if (loadedBooks) {
-      const filtredBooks = loadedBooks.filter(book => book.borrowerId == auth?.id);
-      setFiltredBooks(filtredBooks);
-    }
-  }
-  
+  const myLibraryButton = [ { showbooksCathegory: showAllBooks, buttonText:"show all books", id:"all"},
+  { showbooksCathegory: showLentBooks, buttonText:"show lent books", id:"lent"},
+  { showbooksCathegory: showBorrowedBooks, buttonText:"show borrowed books", id:"borrowed"}, ]
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -75,23 +72,17 @@ function MyLibrary() {
         <div className="my-library__main">
           <AddBookLink />
           <div>
-            <div className="my-library__buttons">
-              <Button
-                buttonText={buttonContent("all books")}
-                onClick={showAllBooks}
-              />
-              <Button
-                buttonText={buttonContent("lent books")}
-                onClick={showLentBooks}
-              />
-              <Button
-                buttonText={buttonContent("borrowed books")}
-                onClick={showBorrowedBooks}
-              />
+            <div>
+              {myLibraryButton.map(button =>  <MyLibraryButton 
+                showbooksCathegory={button.showbooksCathegory}
+                buttonText={button.buttonText}
+                buttonId={button.id}
+                isActive={button.id === activeButtonId}
+                />)}
             </div>
           </div>
         </div>
-       <BookItemList items={filtredBooks} onDeleteBook={placeDeleteHandler}/>
+       <BookItemList items={filtredBooks} onDeleteBook={deleteBookHandler}/>
       </AppearAnimation>
     </>
   );

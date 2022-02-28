@@ -23,8 +23,8 @@ function DeleteModal({
 
   async function deleteBookHandler(itemId: string) {
     try {
-      await deleteBook(itemId);
-      if (!firebaseError) {
+      const deletedBook = await deleteBook(itemId);
+      if (deletedBook) {
         onDeleteBook(itemId);
         onCloseDeleteModal();
       }

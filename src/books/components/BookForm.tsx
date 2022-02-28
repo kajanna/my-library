@@ -14,7 +14,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorModal from '../../shared/ErrorModal';
 
 import './BookForm.scss';
-import { Navigate } from 'react-router-dom';
+
 
 const bookFormSchema = Yup.object().shape({
   title: Yup.string()
@@ -28,11 +28,12 @@ const bookFormSchema = Yup.object().shape({
 interface BookFormProps {
     title: string,
     initialValues: BookFormFormikValues,
-    bookId?: string | undefined
+    bookId?: string | undefined,
+    borrowerId?: string | null
 }
 
 
-function BookForm({ title, initialValues, bookId }: BookFormProps) {
+function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
   const navigate = useNavigate();
   const { addNewBook, clearError, editBookData, loading, firebaseError } = useFirebase();
   const auth = useContext(AuthContext);
@@ -99,14 +100,14 @@ function BookForm({ title, initialValues, bookId }: BookFormProps) {
                 errors={errors}
                 touched={touched}
               />
-              <InputElement
+              {auth?.id != borrowerId && <InputElement
                 label="borrower"
                 id="borrowerNamer"
                 name="borrowerName"
                 type="text"
                 errors={errors}
                 touched={touched}
-              />
+              />}
               {/* <div>AddBookCover</div> */}
             </div>
             <div className="book-form__button-section">

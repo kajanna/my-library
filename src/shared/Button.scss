@@ -38,3 +38,32 @@
 		}
 	}
 }
+.button--active {
+	&:after {
+		content: '';
+		background-color: lighten(colors.$main, 30);
+	}
+	&:before {
+		background-color: colors.$bg;
+	}
+	&:hover {
+        background-color: lighten(colors.$main, 30);
+        color: lighten(colors.$main, 30)
+	
+	}
+}
+.button--active {
+	&:after {
+		content: '';
+		background-color: lighten(colors.$main, 30);
+	}
+	&:before {
+		background-color: colors.$bg;
+	}
+	&:hover {
+        background-color: lighten(colors.$main, 30);
+        color: lighten(colors.$main, 30)
+	
+	}
+}
+

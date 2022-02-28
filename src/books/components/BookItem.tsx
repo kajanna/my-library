@@ -4,6 +4,7 @@ import BookItemActions from './BookItemActions';
 import Card from '../../shared/Card';
 import DeleteModal from '../../shared/DeleteModal';
 import AuthContext from '../../shared/contexts/authContext';
+import AppearAnimation from '../../shared/AppearAnimation';
 
 import './BookItem.scss'
 
@@ -24,7 +25,7 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerNam
   const auth = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
-  const bookItemActions = <BookItemActions bookId={id} onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
+  const bookItemActions = <BookItemActions bookId={id} isNotUsersBook={ownerId == auth?.id} onOpenDeleteModal={()=>setShowDeleteModal(true)}/>
   let whereIsTheBook:ReactNode;
   if (ownerId == auth?.id) {
     whereIsTheBook = (
@@ -42,6 +43,12 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerNam
   }
   return (
     <>
+      {showDeleteModal && <DeleteModal 
+      itemId={id} 
+      onDeleteBook={onDeleteBook} 
+      title={title} 
+      onCloseDeleteModal={() =>setShowDeleteModal(false)}/>}
+    <AppearAnimation>
     <div className="book-item">
       <Card title={bookItemActions} noTitlePadding>
         <div className="book-item__main">
@@ -55,11 +62,7 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerNam
         </div>
       </Card>
     </div>
-    {showDeleteModal && <DeleteModal 
-      itemId={id} 
-      onDeleteBook={onDeleteBook} 
-      title={title} 
-      onCloseDeleteModal={() =>setShowDeleteModal(false)}/>}
+    </AppearAnimation>
     </>
   );
 }

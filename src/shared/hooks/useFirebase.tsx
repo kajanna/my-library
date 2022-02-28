@@ -68,6 +68,7 @@ function useFirebase() {
           title: docSnap.data().title,
           authors: docSnap.data().authors,
           borrowerName: docSnap.data().borrowerName,
+          borrowerId: docSnap.data().borrowerId,
         };
         setLoading(false);
         return book;
@@ -99,7 +100,6 @@ function useFirebase() {
       borrowerId: borrowerId ? borrowerId : '',
       date: serverTimestamp(),
     }
-    console.log(newBook)
     try {
       const addNewBook = await addDoc(bookRef, newBook);
       if (addNewBook) {
@@ -117,6 +117,7 @@ function useFirebase() {
     try {
       await deleteDoc(deletedBookRef);
       setLoading(false);
+      return bookId
     } catch(error) {
         setFirebasError("Something went wrong. We couldn't delete your book");
         setLoading(false);
