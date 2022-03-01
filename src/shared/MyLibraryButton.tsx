@@ -14,7 +14,7 @@ interface MyLibraryButtonProps {
 function MyLibraryButton({ showbooksCathegory, buttonText, buttonId, isActive }: MyLibraryButtonProps) {
   
     return (
-        <div key={buttonId}>
+        <div>
         <button
         className={`my-library-button ${isActive && "my-library-button--active"}`}
           onClick={() => showbooksCathegory(buttonId)}

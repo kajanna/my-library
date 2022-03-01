@@ -74,6 +74,7 @@ function MyLibrary() {
           <div>
             <div>
               {myLibraryButton.map(button =>  <MyLibraryButton 
+                key={button.id}
                 showbooksCathegory={button.showbooksCathegory}
                 buttonText={button.buttonText}
                 buttonId={button.id}

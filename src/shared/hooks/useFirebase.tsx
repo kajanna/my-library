@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import {
-    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, getDocFromServer
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy
   } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
+
 
 import { EditedBookData, Book, BookFormFormikValues } from '../shared_interfaces'
 
@@ -14,6 +17,8 @@ function useFirebase() {
  
   const db = getFirestore();
   const bookRef = collection(db, "books");
+  const storage = getStorage();
+  const storageRef = ref(storage, "books");
 
   const navigate = useNavigate();
   
@@ -39,10 +44,23 @@ function useFirebase() {
     })
     return loadedBooks
   }
+  //upload files to buckett
+  async function fileUpload(file:any) {
+    const bookImagesRef = ref(storage, 'mountains.jpg');
+    try {
+      uploadBytes(bookImagesRef, file).then((snapshot) => {
+        console.log('snapshot');
+      });
+    } catch(error) {
+      setLoading(false);
+      setFirebasError("No picture");
+    }
+    
+  }
 
   async function getUserBooksById(id: string) {
     setLoading(true);
-    const lentBooksQuery = query(collection(db, "books"), where("ownerId", "==", id));
+    const lentBooksQuery = query(collection(db, "books"), where("ownerId", "==", id), orderBy("date","desc"));
     const borrowedBooksQuery = query(collection(db, "books"), where("borrowerId", "==", id));
     try {
       const lentBooksSnapshot = await getDocs(lentBooksQuery);
