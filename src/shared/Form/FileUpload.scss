@@ -1,0 +1,31 @@
+@use '../styles';
+@use "../colors";
+@use "../mediaq";
+
+.file-upload {
+    width: calc(100% - 6px);
+    margin: 1rem 0 3rem;
+}
+.file-upload__info {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: colors.$main;
+    @include mediaq.for-tablet-desktop-up {
+        min-width: 390px;
+    }
+}
+.file-upload__preview {
+    border: styles.$border;
+    display: flex;
+    height: 480px;
+    justify-content: center;
+    align-items: center;
+    img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        @include mediaq.for-tablet-desktop-up {
+            max-width: 390px;
+        }
+    }
+}

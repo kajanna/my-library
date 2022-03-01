@@ -1,8 +1,20 @@
 @use '../../shared/styles';
+@use '../../shared/colors';
 
 .book-form__main {
     padding: 1rem 2rem;
     border-bottom: styles.$border;
+}
+.book-form__label {
+    display: block;
+    border: styles.$border;
+    color: colors.$main;
+    padding: 12px;
+    cursor: pointer;
+    width: calc(100% - 34px);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 .book-form__button-section {
     padding: 1rem 2rem;

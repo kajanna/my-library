@@ -38,32 +38,17 @@
 		}
 	}
 }
-.button--active {
+.button--reversed {
+	@include styles.buttonBase(colors.$main, styles.$border, colors.$bg);
 	&:after {
-		content: '';
-		background-color: lighten(colors.$main, 30);
-	}
-	&:before {
 		background-color: colors.$bg;
 	}
-	&:hover {
-        background-color: lighten(colors.$main, 30);
-        color: lighten(colors.$main, 30)
-	
-	}
-}
-.button--active {
-	&:after {
-		content: '';
-		background-color: lighten(colors.$main, 30);
-	}
 	&:before {
-		background-color: colors.$bg;
+		background-color: colors.$main;
 	}
 	&:hover {
-        background-color: lighten(colors.$main, 30);
-        color: lighten(colors.$main, 30)
-	
+        background-color: colors.$bg;
+        color: colors.$bg;
 	}
 }
 

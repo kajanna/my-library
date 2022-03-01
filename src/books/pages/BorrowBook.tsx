@@ -12,6 +12,7 @@ import AuthContext from '../../shared/contexts/authContext';
 import useFirebase from '../../shared/hooks/useFirebase';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ErrorModal from '../../shared/ErrorModal';
+import FileUpload from '../../shared/Form/FileUpload';
 
 import { Book } from '../../shared/shared_interfaces'
 
@@ -27,7 +28,8 @@ const borrowBookSchema = Yup.object().shape({
 interface BorrowBookFormikValues {
   title: string,
   authors: string,
-  ownerName:string
+  ownerName:string,
+  cover: string | null
 }
 
 function BorrowBook() {
@@ -43,6 +45,7 @@ function BorrowBook() {
       ownerId:'',
       borrowerName: auth!.name,
       borrowerId: auth!.id,
+      cover: values.cover
     };
     try {
       await addNewBook(bookData);
@@ -64,10 +67,11 @@ function BorrowBook() {
           title: "",
           authors: "",
           ownerName: "",
+          cover:""
         }}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, values, setFieldValue }) => (
           <AppearAnimation>
             <Card title="Borrow">
               <Form>
@@ -96,7 +100,24 @@ function BorrowBook() {
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                  <FileUpload file={values.cover} />
+                <label htmlFor="cover" className="book-form__label">
+                  add book cover
+                </label>
+                <input
+                  style={{ display: "none" }}
+                  accept=".jpg, .png, .jpeg"
+                  id="cover"
+                  type="file"
+                  name="cover"
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      setFieldValue("cover", event.currentTarget.files[0]);
+                    }
+                  }}
+                />
+                  </div>
+             
                 <div className="book-form__button-section">
                   <Button buttonText="Borrow" type="submit" />
                 </div>

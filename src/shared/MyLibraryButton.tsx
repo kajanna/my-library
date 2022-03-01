@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ReactComponent as VisibleIcon } from '../assets/visible_icon.svg';
 
-import './MyLibraryButtons.scss'
+import './MyLibraryButton.scss'
 
 interface MyLibraryButtonProps {
     showbooksCathegory: (id:string) => void;
@@ -14,17 +14,19 @@ interface MyLibraryButtonProps {
 function MyLibraryButton({ showbooksCathegory, buttonText, buttonId, isActive }: MyLibraryButtonProps) {
   
     return (
-        <div>
+      <div>
         <button
-        className={`my-library-button ${isActive && "my-library-button--active"}`}
+          className={`my-library-button ${
+            isActive && "my-library-button--active"
+          }`}
           onClick={() => showbooksCathegory(buttonId)}
         >
           <div className="button-content">
-      <div className="button-content__icon">
-        <VisibleIcon />
-      </div>
-      <div>{buttonText}</div>
-    </div>
+            <div className="button-content__icon">
+              <VisibleIcon />
+            </div>
+            <div>{buttonText}</div>
+          </div>
         </button>
       </div>
     );

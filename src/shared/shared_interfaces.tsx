@@ -17,6 +17,8 @@ export interface Book extends BookEssentials {
 export interface BookFormFormikValues extends BookEssentials {
     borrowerName?: string | null | undefined,
     borrowerId?: string | null | undefined,
+    cover?: string | null | undefined,
+ 
   }
 
 export interface EditedBookData extends BookFormFormikValues {
