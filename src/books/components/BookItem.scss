@@ -33,4 +33,13 @@
 }
 .book-item__photo {
     background-color: colors.$appbg;
+    height: 180px;
+    @include mediaq.for-tablet-desktop-up {
+        height: 230px;
+    }
+    img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
 }

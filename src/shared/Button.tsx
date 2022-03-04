@@ -1,10 +1,11 @@
 import React from 'react';
 
 import './Button.scss';
+import  { BookFormFormikValues } from './shared_interfaces'
 
 interface ButtonProps {
     buttonText: string | JSX.Element | JSX.Element[],
-    onClick?: () => void | null,
+    onClick?: (() => void) 
     type?: "button" | "submit" | "reset" | undefined,
     isDisabled?: boolean,
     isReversed?: boolean

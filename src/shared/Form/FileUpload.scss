@@ -3,7 +3,7 @@
 @use "../mediaq";
 
 .file-upload {
-    width: calc(100% - 6px);
+    width: 100%;
     margin: 1rem 0 3rem;
 }
 .file-upload__info {
@@ -17,15 +17,18 @@
 .file-upload__preview {
     border: styles.$border;
     display: flex;
-    height: 480px;
+    height: 360px;
     justify-content: center;
     align-items: center;
+    @include mediaq.for-tablet-desktop-up {
+        height: 460px;
+    }
     img {
         object-fit: cover;
         height: 100%;
         width: 100%;
         @include mediaq.for-tablet-desktop-up {
-            max-width: 390px;
+            width: 399px;
         }
     }
 }

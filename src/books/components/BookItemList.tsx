@@ -21,6 +21,7 @@ function BookItemList({ items, onDeleteBook }: BookItemListProps) {
         borrowerId={book.borrowerId}
         title={book.title}
         authors={book.authors}
+        cover={book.cover}
         date={book.date!}
         ownerName={book.ownerName}
         ownerId={book.ownerId!}

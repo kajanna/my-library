@@ -5,6 +5,7 @@ import Card from '../../shared/Card';
 import DeleteModal from '../../shared/DeleteModal';
 import AuthContext from '../../shared/contexts/authContext';
 import AppearAnimation from '../../shared/AppearAnimation';
+import { Book } from '../../shared/shared_interfaces';
 
 import './BookItem.scss'
 
@@ -16,12 +17,13 @@ interface BookItemProps {
   authors:  string, 
   date:string, 
   id:string,
+  cover: string | null | undefined, 
   ownerName:string,
   ownerId:string 
   onDeleteBook:(deletedBookId: string) => void
 }
 
-function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerName, ownerId, onDeleteBook }: BookItemProps) {
+function BookItem({ borrowerName, borrowerId, title, authors, date, id, cover, ownerName, ownerId, onDeleteBook }: BookItemProps) {
   const auth = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
@@ -58,7 +60,9 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, ownerNam
             <div className="book-item__info-items">{date}</div>
             {whereIsTheBook}
           </div>
-          <div className="book-item__photo"></div>
+          <div className="book-item__photo">
+           { cover && <img src={cover}/>}
+          </div>
         </div>
       </Card>
     </div>
