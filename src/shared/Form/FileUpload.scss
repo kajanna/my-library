@@ -17,11 +17,11 @@
 .file-upload__preview {
     border: styles.$border;
     display: flex;
-    height: 360px;
+    height: 420px;
     justify-content: center;
     align-items: center;
     @include mediaq.for-tablet-desktop-up {
-        height: 460px;
+        height: 540px;
     }
     img {
         object-fit: cover;

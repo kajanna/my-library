@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
     getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy
   } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 
@@ -12,15 +12,17 @@ import { EditedBookData, Book, BookFormFormikValues } from '../shared_interfaces
 
 
 function useFirebase() {
+
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [firebaseError, setFirebasError] = useState<string | null>();
  
   const db = getFirestore();
   const bookRef = collection(db, "books");
   const storage = getStorage();
-  const storageRef = ref(storage, "books");
 
-  const navigate = useNavigate();
+  
   
   //hepler function for - getUserBooksById
   function setUserBooksData(querySnapshot: QuerySnapshot<DocumentData>) {
@@ -44,18 +46,26 @@ function useFirebase() {
     })
     return loadedBooks
   }
-  //upload files to buckett
-  async function fileUpload(file:any) {
-    const bookImagesRef = ref(storage, 'mountains.jpg');
+  //upload files to storage
+  async function fileUpload(file: any) {
+    const bookImagesRef = ref(storage, `book/${file.name}`);
+    let  snapshot;
+    let bookCoverUrl;
     try {
-      uploadBytes(bookImagesRef, file).then((snapshot) => {
-        console.log('snapshot');
-      });
+      snapshot = await uploadBytes(bookImagesRef, file);
     } catch(error) {
       setLoading(false);
       setFirebasError("No picture");
     }
-    
+    if (snapshot) {
+      try {
+        bookCoverUrl = await getDownloadURL(bookImagesRef);
+      } catch(error) {
+        setLoading(false);
+        setFirebasError("No picture");
+      }
+    }
+    return bookCoverUrl
   }
 
   async function getUserBooksById(id: string) {
@@ -87,6 +97,7 @@ function useFirebase() {
           authors: docSnap.data().authors,
           borrowerName: docSnap.data().borrowerName,
           borrowerId: docSnap.data().borrowerId,
+          cover: docSnap.data().cover
         };
         setLoading(false);
         return book;
@@ -107,8 +118,13 @@ function useFirebase() {
     ownerId,
     borrowerName,
     borrowerId,
+    coverFile
   }: Book) {
     setLoading(true);
+    let cover;
+    try {
+      cover = await fileUpload(coverFile);
+    } catch {}
     const newBook = {
       title,
       authors,
@@ -116,6 +132,7 @@ function useFirebase() {
       ownerId,
       borrowerName: borrowerName ? borrowerName : '',
       borrowerId: borrowerId ? borrowerId : '',
+      cover,
       date: serverTimestamp(),
     }
     try {
@@ -147,8 +164,13 @@ function useFirebase() {
     authors,
     borrowerName,
     id,
+    coverFile
   }: EditedBookData) {
     setLoading(true);
+    let cover;
+    try {
+      cover = await fileUpload(coverFile);
+    } catch {}
     const editedBookRef = doc(db, "books", id!);
     try {
       await updateDoc(editedBookRef, {
@@ -156,6 +178,7 @@ function useFirebase() {
         authors,
         borrowerName,
         date: serverTimestamp(),
+        cover
       });
       setLoading(false);
       navigate("/my-library");

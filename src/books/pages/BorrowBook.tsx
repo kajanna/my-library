@@ -22,14 +22,21 @@ const borrowBookSchema = Yup.object().shape({
   authors: Yup.string()
   .required("this field is required"),
   ownerName: Yup.string()
-  .required("this field is required") 
+  .required("this field is required"),
+  coverFile: Yup.mixed()
+    .test(
+      "fileType",
+      "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
+      (value) =>
+        value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
+    )
 });
 
 interface BorrowBookFormikValues {
   title: string,
   authors: string,
   ownerName:string,
-  cover: string | null
+  coverFile: any
 }
 
 function BorrowBook() {
@@ -45,7 +52,7 @@ function BorrowBook() {
       ownerId:'',
       borrowerName: auth!.name,
       borrowerId: auth!.id,
-      cover: values.cover
+      coverFile: values.coverFile
     };
     try {
       await addNewBook(bookData);
@@ -67,7 +74,7 @@ function BorrowBook() {
           title: "",
           authors: "",
           ownerName: "",
-          cover:""
+          coverFile: null
         }}
         onSubmit={handleSubmit}
       >
@@ -100,24 +107,23 @@ function BorrowBook() {
                     errors={errors}
                     touched={touched}
                   />
-                  <FileUpload file={values.cover} />
-                <label htmlFor="cover" className="book-form__label">
+                 <FileUpload file={values.coverFile} />
+                <label htmlFor="coverFile" className="book-form__label">
                   add book cover
                 </label>
                 <input
                   style={{ display: "none" }}
                   accept=".jpg, .png, .jpeg"
-                  id="cover"
+                  id="coverFile"
                   type="file"
-                  name="cover"
+                  name="coverFile"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
-                      setFieldValue("cover", event.currentTarget.files[0]);
+                      setFieldValue("coverFile", event.currentTarget.files[0]);
                     }
                   }}
                 />
-                  </div>
-             
+              </div>
                 <div className="book-form__button-section">
                   <Button buttonText="Borrow" type="submit" />
                 </div>

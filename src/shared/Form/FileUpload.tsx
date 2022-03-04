@@ -2,9 +2,19 @@ import { useState, useEffect } from 'react';
 
 import './FileUpload.scss'
 
-function FileUpload({ file }: any) {
+interface FileUploadProps {
+  file?: any;
+  editedbookUrl?: string | null |undefined
+}
+
+function FileUpload({ file, editedbookUrl }: FileUploadProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>();
 
+  useEffect(()=> {
+    if (editedbookUrl) {
+      setPreviewUrl(editedbookUrl);
+    }
+  }, [editedbookUrl])
   useEffect(() => {
     if (!file) {
       return;

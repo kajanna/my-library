@@ -22,7 +22,7 @@ const bookFormSchema = Yup.object().shape({
   authors: Yup.string()
     .required("this field is required"),
   borrowerName: Yup.string(),
-  image: Yup.mixed()
+  coverFile: Yup.mixed()
     .test(
       "fileType",
       "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
@@ -31,16 +31,15 @@ const bookFormSchema = Yup.object().shape({
     )
 });
 
-
 interface BookFormProps {
     title: string,
     initialValues: BookFormFormikValues,
-    bookId?: string | undefined,
-    borrowerId?: string | null,
+    bookId?: string | null |undefined,
+    borrowerId?: string | null | undefined,
+    editedbookUrl?: string | null | undefined,
 }
 
-
-function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
+function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: BookFormProps) {
   const navigate = useNavigate();
   const { addNewBook, clearError, editBookData, loading, firebaseError } =
     useFirebase();
@@ -54,7 +53,7 @@ function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
         ownerName: auth!.name,
         ownerId: auth!.id,
         borrowerName: values.borrowerName,
-        cover: values.cover,
+        coverFile: values.coverFile,
       };
       try {
         await addNewBook(bookData);
@@ -69,7 +68,7 @@ function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
         authors: values.authors,
         borrowerName: values.borrowerName,
         id: bookId,
-        cover: values.cover,
+        coverFile: values.coverFile,
       };
       try {
         await editBookData(editedbookData);
@@ -122,19 +121,19 @@ function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
                     touched={touched}
                   />
                 )}
-                <FileUpload file={values.cover} />
-                <label htmlFor="cover" className="book-form__label">
+                <FileUpload file={values.coverFile} editedbookUrl={editedbookUrl} />
+                <label htmlFor="coverFile" className="book-form__label">
                   add book cover
                 </label>
                 <input
                   style={{ display: "none" }}
                   accept=".jpg, .png, .jpeg"
-                  id="cover"
+                  id="coverFile"
                   type="file"
-                  name="cover"
+                  name="coverFile"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
-                      setFieldValue("cover", event.currentTarget.files[0]);
+                      setFieldValue("coverFile", event.currentTarget.files[0]);
                     }
                   }}
                 />
@@ -142,7 +141,7 @@ function BookForm({ title, initialValues, bookId, borrowerId }: BookFormProps) {
               <div className="book-form__button-section">
                 <Button
                   buttonText={title === "Add new book" ? "add" : "edit"}
-                  type="submit"
+                  type="submit" 
                 />
               </div>
             </Form>

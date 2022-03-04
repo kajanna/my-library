@@ -16,6 +16,7 @@ function EditBookData() {
         borrowerName:""
     });
     const [ borrowerId, setBorrowerId ] = useState<string | null>();
+    const [ editedbookUrl, setEditedbookUrl ] = useState<string | null>();
     const { bookId } = useParams<string>();
     const { getEditedBook, clearError, loading, firebaseError } = useFirebase();
     
@@ -31,6 +32,7 @@ function EditBookData() {
                 authors: book.authors,
                 borrowerName: book.borrowerName,
               });
+              setEditedbookUrl(book.cover)
               setBorrowerId(book.borrowerId);
             }
           }
@@ -49,7 +51,7 @@ function EditBookData() {
         {loading && <LoadingSpinner />}
         {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
         <AppearAnimation>
-            <BookForm title="Edit book data" initialValues={formValues} bookId={bookId} borrowerId={borrowerId}/>
+            <BookForm title="Edit book data" initialValues={formValues} bookId={bookId} borrowerId={borrowerId} editedbookUrl={editedbookUrl}/>
         </AppearAnimation>
         </>
     );

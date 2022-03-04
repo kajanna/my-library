@@ -8,6 +8,7 @@ export interface Book extends BookEssentials {
     id?: string | null | undefined;
     date?: string | null | undefined;
     cover?: string | null | undefined;
+    coverFile?: Blob | null | undefined;
     ownerId: string | null | undefined;
     ownerName: string;
     borrowerName?: string | null | undefined;
@@ -17,8 +18,8 @@ export interface Book extends BookEssentials {
 export interface BookFormFormikValues extends BookEssentials {
     borrowerName?: string | null | undefined,
     borrowerId?: string | null | undefined,
+    coverFile?: Blob | null | undefined;
     cover?: string | null | undefined,
- 
   }
 
 export interface EditedBookData extends BookFormFormikValues {
