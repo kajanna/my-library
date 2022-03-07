@@ -18,7 +18,7 @@ function MyLibrary() {
 
   const [loadedBooks, setLoadedBooks] = useState<Book[] | null | undefined>();
   const [filtredBooks, setFiltredBooks] = useState<Book[] | null | undefined>();
-  const [ activeButtonId, setActiveButtonId ] = useState<string>();
+  const [ activeButtonId, setActiveButtonId ] = useState<string>("all");
   const { getUserBooksById, clearError, loading, firebaseError } =   useFirebase();
 
   function deleteBookHandler(deletedBookId: string) {

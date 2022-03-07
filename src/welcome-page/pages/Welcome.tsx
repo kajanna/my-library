@@ -9,6 +9,7 @@ import './Welcome.scss';
 
 function Welcome() {
   const auth = useContext(AuthContext);
+
   return (
     <div className="welcome">
       <div className="welcome__info">
@@ -19,9 +20,9 @@ function Welcome() {
             ratione incidunt nesciunt blanditiis expedita consequuntur?
           </div>
           <div className="welcome__register">
-              <Link to={auth ? "/my-library" : "/auth"}>
-                <Button buttonText={auth ? "My Library" : "Register"} />
-              </Link>
+            
+            {auth ? <Link to="/my-library"><Button buttonText="My Library"/></Link>
+            : <Link to="/auth"><Button buttonText="Register"/></Link>}
             </div>
           <div className="welcome__picture">
             <WelcomeBG />

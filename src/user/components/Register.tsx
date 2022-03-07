@@ -2,12 +2,14 @@ import React from 'react';
 
 import {Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from  'react-router-dom'
 
 import Card from '../../shared/Card';
 import Button from '../../shared/Button';
 import InputElement from '../../shared/Form/InputElement';
 import useAuth from '../../shared/hooks/useAuth';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import ErrorModal from '../../shared/ErrorModal';
 
 const registerSchema = Yup.object().shape({
     name: Yup.string()
@@ -28,18 +30,22 @@ const registerSchema = Yup.object().shape({
 
 
 function Register() {
-  const { loading, authError, register } = useAuth();
+  const navigate = useNavigate();
+  const { loading, authError, register, clearAuthError } = useAuth();
 
   async function handleSubmit(values: RegisterFormikValues) {
     try {
-      await register(values.email, values.password, values.name);
+      const uid = await register(values.email, values.password, values.name);
+      if (uid) {
+        navigate("/my-library")
+      }
     } catch (err){}
     
   }
   return (
     <>
     {loading && <LoadingSpinner />}
-    {authError && <p>{authError}</p>}
+    {authError && <ErrorModal errorText={authError} closeErrorModal={clearAuthError}/>}
     <Formik
       validationSchema={registerSchema}
       initialValues={{

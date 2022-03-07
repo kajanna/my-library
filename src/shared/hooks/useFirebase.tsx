@@ -177,7 +177,6 @@ function useFirebase() {
         title,
         authors,
         borrowerName,
-        date: serverTimestamp(),
         cover
       });
       setLoading(false);
