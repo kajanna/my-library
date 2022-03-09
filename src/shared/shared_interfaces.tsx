@@ -1,3 +1,4 @@
+import { StorageReference } from "firebase/storage";
 export interface BookEssentials {
     title: string;
     authors: string;
@@ -9,6 +10,7 @@ export interface Book extends BookEssentials {
     date?: string | null | undefined;
     cover?: string | null | undefined;
     coverFile?: Blob | null | undefined;
+    coverRef?: StorageReference | null | undefined;
     ownerId: string | null | undefined;
     ownerName: string;
     borrowerName?: string | null | undefined;

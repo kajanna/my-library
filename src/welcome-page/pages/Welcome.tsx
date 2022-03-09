@@ -21,8 +21,8 @@ function Welcome() {
           </div>
           <div className="welcome__register">
             
-            {auth ? <Link to="/my-library"><Button buttonText="My Library"/></Link>
-            : <Link to="/auth"><Button buttonText="Register"/></Link>}
+            {auth && <Link to="/my-library"><Button buttonText="My Library"/></Link>}
+            {!auth && <Link to="/auth"><Button buttonText="Register"/></Link>}
             </div>
           <div className="welcome__picture">
             <WelcomeBG />

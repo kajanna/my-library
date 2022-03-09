@@ -1,30 +1,23 @@
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-import {
-    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy
-  } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs,
+  getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, StorageReference
+} from "firebase/storage";
 
-
-
-import { EditedBookData, Book, BookFormFormikValues } from '../shared_interfaces'
-
+import { EditedBookData, Book, BookFormFormikValues } from "../shared_interfaces";
 
 function useFirebase() {
 
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [firebaseError, setFirebasError] = useState<string | null>();
- 
+
   const db = getFirestore();
   const bookRef = collection(db, "books");
   const storage = getStorage();
 
-  
-  
-  //hepler function for - getUserBooksById
+  //util function for - getUserBooksById
   function setUserBooksData(querySnapshot: QuerySnapshot<DocumentData>) {
     const loadedBooks: Book[] | null = [];
     querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
@@ -38,51 +31,60 @@ function useFirebase() {
         authors: doc.data().authors,
         date: date,
         cover: doc.data().cover,
+        coverRef: doc.data().coverRef,
         ownerId: doc.data().ownerId,
         ownerName: doc.data().ownerName,
         borrowerName: doc.data().borrowerName,
         borrowerId: doc.data().borrowerId,
       });
-    })
-    return loadedBooks
+    });
+    return loadedBooks;
   }
   //upload files to storage
   async function fileUpload(file: any) {
-    const bookImagesRef = ref(storage, `book/${file.name}`);
-    let  snapshot;
-    let bookCoverUrl;
+    const coverRef = ref(storage, `book/${file.name}`);
+    let snapshot;
+    let coverUrl;
     try {
-      snapshot = await uploadBytes(bookImagesRef, file);
-    } catch(error) {
+      snapshot = await uploadBytes(coverRef, file);
+    } catch (error) {
       setLoading(false);
       setFirebasError("No picture");
     }
     if (snapshot) {
       try {
-        bookCoverUrl = await getDownloadURL(bookImagesRef);
-      } catch(error) {
+        coverUrl = await getDownloadURL(coverRef);
+      } catch (error) {
         setLoading(false);
         setFirebasError("No picture");
       }
     }
-    return bookCoverUrl
+    coverUrl = await getDownloadURL(coverRef);
+    return { coverUrl, coverRef };
   }
 
   async function getUserBooksById(id: string) {
     setLoading(true);
-    const lentBooksQuery = query(collection(db, "books"), where("ownerId", "==", id), orderBy("date","desc"));
-    const borrowedBooksQuery = query(collection(db, "books"), where("borrowerId", "==", id));
+    const lentBooksQuery = query(
+      collection(db, "books"),
+      where("ownerId", "==", id),
+      orderBy("date", "desc")
+    );
+    const borrowedBooksQuery = query(
+      collection(db, "books"),
+      where("borrowerId", "==", id)
+    );
     try {
       const lentBooksSnapshot = await getDocs(lentBooksQuery);
       const borrowedBooksSnapshot = await getDocs(borrowedBooksQuery);
       const lentBooks = setUserBooksData(lentBooksSnapshot);
       const borrowedBooks = setUserBooksData(borrowedBooksSnapshot);
-      const loadedBooks = [...lentBooks, ...borrowedBooks]
+      const loadedBooks = [...lentBooks, ...borrowedBooks];
       setLoading(false);
       return loadedBooks;
     } catch (error) {
       setLoading(false);
-      setFirebasError("No books");
+      setFirebasError("We couldn't find your books");
     }
   }
 
@@ -97,13 +99,13 @@ function useFirebase() {
           authors: docSnap.data().authors,
           borrowerName: docSnap.data().borrowerName,
           borrowerId: docSnap.data().borrowerId,
-          cover: docSnap.data().cover
+          cover: docSnap.data().cover,
         };
         setLoading(false);
         return book;
       } else {
         setLoading(false);
-        setFirebasError("We could not find your book");
+        setFirebasError("We couldn't find your book");
       }
     } catch (error) {
       setLoading(false);
@@ -111,52 +113,54 @@ function useFirebase() {
     }
   }
 
-  async function addNewBook({
-    title,
-    authors,
-    ownerName,
-    ownerId,
-    borrowerName,
-    borrowerId,
-    coverFile
-  }: Book) {
+  async function addNewBook({ title, authors, ownerName, ownerId, borrowerName, borrowerId, coverFile,}
+    : Book) {
     setLoading(true);
-    let cover;
+    let bookCover;
     try {
-      cover = await fileUpload(coverFile);
+      bookCover = await fileUpload(coverFile);
     } catch {}
     const newBook = {
       title,
       authors,
       ownerName,
       ownerId,
-      borrowerName: borrowerName ? borrowerName : '',
-      borrowerId: borrowerId ? borrowerId : '',
-      cover,
+      borrowerName: borrowerName ? borrowerName : "",
+      borrowerId: borrowerId ? borrowerId : "",
+      cover: bookCover ? bookCover.coverUrl : "",
+      coverRef: bookCover ? bookCover.coverRef : "",
       date: serverTimestamp(),
-    }
+    };
     try {
       const addNewBook = await addDoc(bookRef, newBook);
       if (addNewBook) {
         setLoading(false);
       }
-    } catch(error) {
-        setFirebasError('Something went wrong. Please try again');
-        setLoading(false);
-      }
+    } catch (error) {
+      setFirebasError("Something went wrong. Please try again");
+      setLoading(false);
+    }
   }
 
-  async function deleteBook(bookId: string) {
+  async function deleteBook(bookId: string, coverRef?: StorageReference) {
     setLoading(true);
+    if (coverRef) {
+      try {
+        await deleteObject(coverRef)
+      } catch(error) {
+        setFirebasError("We couldn't delete your book");
+        setLoading(false);
+      }
+    }
     const deletedBookRef = doc(db, "books", bookId);
     try {
       await deleteDoc(deletedBookRef);
       setLoading(false);
-      return bookId
-    } catch(error) {
-        setFirebasError("Something went wrong. We couldn't delete your book");
-        setLoading(false);
-      };
+      return bookId;
+    } catch (error) {
+      setFirebasError("We couldn't delete your book");
+      setLoading(false);
+    }
   }
 
   async function editBookData({
@@ -164,12 +168,12 @@ function useFirebase() {
     authors,
     borrowerName,
     id,
-    coverFile
+    coverFile,
   }: EditedBookData) {
     setLoading(true);
-    let cover;
+    let bookCover;
     try {
-      cover = await fileUpload(coverFile);
+      bookCover = await fileUpload(coverFile);
     } catch {}
     const editedBookRef = doc(db, "books", id!);
     try {
@@ -177,15 +181,15 @@ function useFirebase() {
         title,
         authors,
         borrowerName,
-        cover
+        cover: bookCover ? bookCover.coverUrl : "",
+        coverRef: bookCover ? bookCover.coverRef : "",
       });
       setLoading(false);
-      navigate("/my-library");
-    } catch(error) {
+    } catch (error) {
       setFirebasError("We couldn't save your book data");
       setLoading(false);
     }
-  }   
+  }
 
   function clearError() {
     setFirebasError(null);
