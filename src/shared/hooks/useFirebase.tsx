@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs,
   getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, StorageReference
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, StorageReference,
 } from "firebase/storage";
 
 import { EditedBookData, Book, BookFormFormikValues } from "../shared_interfaces";
@@ -30,7 +30,7 @@ function useFirebase() {
         title: doc.data().title,
         authors: doc.data().authors,
         date: date,
-        cover: doc.data().cover,
+        coverUrl: doc.data().coverUrl,
         coverRef: doc.data().coverRef,
         ownerId: doc.data().ownerId,
         ownerName: doc.data().ownerName,
@@ -42,7 +42,7 @@ function useFirebase() {
   }
   //upload files to storage
   async function fileUpload(file: any) {
-    const coverRef = ref(storage, `book/${file.name}`);
+    const coverRef = ref(storage, `books/${file.name}`);
     let snapshot;
     let coverUrl;
     try {
@@ -99,7 +99,7 @@ function useFirebase() {
           authors: docSnap.data().authors,
           borrowerName: docSnap.data().borrowerName,
           borrowerId: docSnap.data().borrowerId,
-          cover: docSnap.data().cover,
+          coverUrl: docSnap.data().coverUrl,
         };
         setLoading(false);
         return book;
@@ -113,13 +113,15 @@ function useFirebase() {
     }
   }
 
-  async function addNewBook({ title, authors, ownerName, ownerId, borrowerName, borrowerId, coverFile,}
+  async function addNewBook({ title, authors, ownerName, ownerId, borrowerName, borrowerId, coverFile}
     : Book) {
     setLoading(true);
     let bookCover;
-    try {
-      bookCover = await fileUpload(coverFile);
-    } catch {}
+    if (coverFile) {
+      try {
+        bookCover = await fileUpload(coverFile);
+      } catch {}
+    }
     const newBook = {
       title,
       authors,
@@ -127,26 +129,29 @@ function useFirebase() {
       ownerId,
       borrowerName: borrowerName ? borrowerName : "",
       borrowerId: borrowerId ? borrowerId : "",
-      cover: bookCover ? bookCover.coverUrl : "",
-      coverRef: bookCover ? bookCover.coverRef : "",
+      coverUrl: bookCover ? bookCover.coverUrl : "",
+      coverRef: bookCover ? bookCover.coverRef.toString() : "",
       date: serverTimestamp(),
     };
+    console.log("new Book", bookCover ? bookCover.coverRef.toString() : "",)
     try {
       const addNewBook = await addDoc(bookRef, newBook);
       if (addNewBook) {
         setLoading(false);
       }
     } catch (error) {
+      console.log(error);
       setFirebasError("Something went wrong. Please try again");
       setLoading(false);
     }
   }
 
-  async function deleteBook(bookId: string, coverRef?: StorageReference) {
+  async function deleteBook(bookId: string, coverRef?: string) {
     setLoading(true);
     if (coverRef) {
+      const deletedCoverRef = ref(storage, coverRef)
       try {
-        await deleteObject(coverRef)
+        await deleteObject(deletedCoverRef)
       } catch(error) {
         setFirebasError("We couldn't delete your book");
         setLoading(false);
@@ -171,19 +176,44 @@ function useFirebase() {
     coverFile,
   }: EditedBookData) {
     setLoading(true);
+    console.log("editedBook");
     let bookCover;
-    try {
-      bookCover = await fileUpload(coverFile);
-    } catch {}
+    if (coverFile) {
+      try {
+        bookCover = await fileUpload(coverFile);
+      } catch {}
+    }
+    console.log(bookCover);
     const editedBookRef = doc(db, "books", id!);
+    let editedBook: {
+      title? : string;
+      authors? : string;
+      borrowerName? : string;
+      coverUrl? : string;
+      coverRef? : string
+    } = {};
+    console.log("191");
+    if (title) {
+      console.log("193");
+      editedBook.title = title
+    }
+    console.log("196");
+    if (authors) {
+      console.log("authors");
+      editedBook.authors = authors
+    }
+    if (borrowerName) {
+      console.log("borrowerName");
+      editedBook.borrowerName = borrowerName
+    }
+    if (bookCover) {
+      console.log(bookCover);
+      editedBook.coverUrl = bookCover.coverUrl;
+      editedBook.coverRef = bookCover.coverRef.toString()
+    }
+    console.log(editedBook);
     try {
-      await updateDoc(editedBookRef, {
-        title,
-        authors,
-        borrowerName,
-        cover: bookCover ? bookCover.coverUrl : "",
-        coverRef: bookCover ? bookCover.coverRef : "",
-      });
+      await updateDoc(editedBookRef, editedBook);
       setLoading(false);
     } catch (error) {
       setFirebasError("We couldn't save your book data");

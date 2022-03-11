@@ -13,12 +13,14 @@ function FileUpload({ file, editedbookUrl }: FileUploadProps) {
   useEffect(()=> {
     if (editedbookUrl) {
       setPreviewUrl(editedbookUrl);
+    } else {
+      setPreviewUrl(null);
     }
   }, [editedbookUrl])
   useEffect(() => {
     if (!file) {
       return;
-    }
+  }
     const fileReader = new FileReader();
     fileReader.onload = () => {
       if (typeof fileReader.result === "string") {

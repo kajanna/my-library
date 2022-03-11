@@ -27,7 +27,7 @@ const bookFormSchema = Yup.object().shape({
       "fileType",
       "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
       (value) =>
-        value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
+      !value || value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
     )
 });
 
@@ -91,9 +91,10 @@ function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: B
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, setFieldValue, values }) => (
+        {({ errors, touched, setFieldValue, values, isValid }) => (
           <Card title={title}>
             <Form>
+              {isValid}
               <div className="book-form__main">
                 <InputElement
                   label="title"

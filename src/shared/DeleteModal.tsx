@@ -10,20 +10,16 @@ interface DeleteModalProps {
     onCloseDeleteModal: ()=> void,
     title: string,
     itemId: string,
+    coverRef?: string,
     onDeleteBook: (deletedBookId: string) => void 
 }
 
-function DeleteModal({
-  onCloseDeleteModal,
-  title,
-  itemId,
-  onDeleteBook,
-}: DeleteModalProps) {
+function DeleteModal({ onCloseDeleteModal, title, itemId, coverRef, onDeleteBook}: DeleteModalProps) {
   const { deleteBook, loading, firebaseError, clearError } = useFirebase();
 
-  async function deleteBookHandler(itemId: string) {
+  async function deleteBookHandler(itemId:string, coverRef?:string) {
     try {
-      const deletedBook = await deleteBook(itemId);
+      const deletedBook = await deleteBook(itemId, coverRef);
       if (deletedBook) {
         onDeleteBook(itemId);
         onCloseDeleteModal();
@@ -40,7 +36,7 @@ function DeleteModal({
       <div className="delete-modal-button-section">
         <button
           className="delete-modal-button-delete"
-          onClick={() => deleteBookHandler(itemId)}
+          onClick={() => deleteBookHandler(itemId, coverRef)}
         >
           yes
         </button>

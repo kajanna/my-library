@@ -28,7 +28,7 @@ const borrowBookSchema = Yup.object().shape({
       "fileType",
       "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
       (value) =>
-        value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
+      !value || value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
     )
 });
 

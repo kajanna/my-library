@@ -10,20 +10,11 @@ import { Book } from '../../shared/shared_interfaces';
 import './BookItem.scss'
 
 
-interface BookItemProps {
-  borrowerId?: string | null, 
-  borrowerName?: string | null, 
-  title: string, 
-  authors:  string, 
-  date:string, 
-  id:string,
-  cover: string | null | undefined, 
-  ownerName:string,
-  ownerId:string 
+interface BookItemProps extends Book {
   onDeleteBook:(deletedBookId: string) => void
 }
 
-function BookItem({ borrowerName, borrowerId, title, authors, date, id, cover, ownerName, ownerId, onDeleteBook }: BookItemProps) {
+function BookItem({ borrowerName, borrowerId, title, authors, date, id, coverUrl, coverRef, ownerName, ownerId, onDeleteBook }: BookItemProps) {
   const auth = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal ] = useState(false);
   
@@ -46,7 +37,8 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, cover, o
   return (
     <>
       {showDeleteModal && <DeleteModal 
-      itemId={id} 
+      itemId={id!}
+      coverRef={coverRef!} 
       onDeleteBook={onDeleteBook} 
       title={title} 
       onCloseDeleteModal={() =>setShowDeleteModal(false)}/>}
@@ -61,7 +53,7 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, cover, o
             {whereIsTheBook}
           </div>
           <div className="book-item__photo">
-           { cover && <img src={cover}/>}
+           { coverUrl && <img src={coverUrl}/>}
           </div>
         </div>
       </Card>

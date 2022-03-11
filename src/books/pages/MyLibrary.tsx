@@ -16,10 +16,11 @@ import './MyLibrary.scss';
 function MyLibrary() {
   const auth = useContext(AuthContext);
 
-  const [loadedBooks, setLoadedBooks] = useState<Book[] | null | undefined>();
-  const [filtredBooks, setFiltredBooks] = useState<Book[] | null | undefined>();
+  const [ loadedBooks, setLoadedBooks ] = useState<Book[] | null | undefined>();
+  const [ filtredBooks, setFiltredBooks ] = useState<Book[] | null | undefined>();
   const [ activeButtonId, setActiveButtonId ] = useState<string>("all");
-  const { getUserBooksById, clearError, loading, firebaseError } =   useFirebase();
+  const { getUserBooksById, clearError, loading, firebaseError } = useFirebase();
+
 
   function deleteBookHandler(deletedBookId: string) {
       setLoadedBooks((prevBooks) =>

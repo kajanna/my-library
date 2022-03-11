@@ -32,7 +32,7 @@ function EditBookData() {
                 authors: book.authors,
                 borrowerName: book.borrowerName,
               });
-              setEditedbookUrl(book.cover)
+              setEditedbookUrl(book.coverUrl)
               setBorrowerId(book.borrowerId);
             }
           }
