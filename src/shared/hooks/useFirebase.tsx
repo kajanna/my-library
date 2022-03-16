@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, query, where, getDocs,
   getDoc, serverTimestamp, QuerySnapshot, DocumentData, QueryDocumentSnapshot, orderBy,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, StorageReference,
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject,
 } from "firebase/storage";
 
 import { EditedBookData, Book, BookFormFormikValues } from "../shared_interfaces";
@@ -140,7 +140,6 @@ function useFirebase() {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setFirebasError("Something went wrong. Please try again");
       setLoading(false);
     }
@@ -148,10 +147,14 @@ function useFirebase() {
 
   async function deleteBook(bookId: string, coverRef?: string) {
     setLoading(true);
+    console.log("dominik");
+    console.log(loading);
     if (coverRef) {
       const deletedCoverRef = ref(storage, coverRef)
+      console.log("deleteBook - deleting picture start");
       try {
         await deleteObject(deletedCoverRef)
+        console.log("deleteBook - deleting picture stop");
       } catch(error) {
         setFirebasError("We couldn't delete your book");
         setLoading(false);
@@ -161,6 +164,7 @@ function useFirebase() {
     try {
       await deleteDoc(deletedBookRef);
       setLoading(false);
+      console.log("deleteBook - stop", loading);
       return bookId;
     } catch (error) {
       setFirebasError("We couldn't delete your book");

@@ -8,7 +8,6 @@ import ErrorModal from '../../shared/ErrorModal';
 
 import AppearAnimation from '../../shared/AppearAnimation';
 
-
 function EditBookData() {
     const [ formValues, setFormValues ] = useState<BookFormFormikValues>({
         title: "",

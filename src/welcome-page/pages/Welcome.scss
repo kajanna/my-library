@@ -18,14 +18,13 @@
      }
 }
 .welcome__register {
+    margin: 2rem 0 1rem;
     @include mediaq.for-tablet-desktop-up {
         max-width: 50%; 
-        margin-bottom: 4rem;
+        margin: 1rem 1rem 2rem;
      }
 }
-.welcome--hide {
-    display: none;
-}
+
 .welcome__picture {
     @include mediaq.for-tablet-desktop-up {
         position: absolute;

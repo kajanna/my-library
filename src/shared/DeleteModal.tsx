@@ -11,32 +11,18 @@ interface DeleteModalProps {
     title: string,
     itemId: string,
     coverRef?: string,
-    onDeleteBook: (deletedBookId: string) => void 
+    onDeleteBook: (deletedBookId: string, deletedBookRef?: string) => void
 }
 
 function DeleteModal({ onCloseDeleteModal, title, itemId, coverRef, onDeleteBook}: DeleteModalProps) {
-  const { deleteBook, loading, firebaseError, clearError } = useFirebase();
-
-  async function deleteBookHandler(itemId:string, coverRef?:string) {
-    try {
-      const deletedBook = await deleteBook(itemId, coverRef);
-      if (deletedBook) {
-        onDeleteBook(itemId);
-        onCloseDeleteModal();
-      }
-    } catch (err) {}
-  }
-
   return (
     <>
-     {loading && <LoadingSpinner />}
-     {firebaseError && <ErrorModal  errorText={firebaseError} closeErrorModal={clearError}/>}
     <Modal title="Delete book" onCloseModal={onCloseDeleteModal}>
       <div>Do you want to delete {title} from your Library?</div>
       <div className="delete-modal-button-section">
         <button
           className="delete-modal-button-delete"
-          onClick={() => deleteBookHandler(itemId, coverRef)}
+          onClick={() => onDeleteBook(itemId, coverRef)}
         >
           yes
         </button>

@@ -20,7 +20,6 @@ function Welcome() {
             ratione incidunt nesciunt blanditiis expedita consequuntur?
           </div>
           <div className="welcome__register">
-            
             {auth && <Link to="/my-library"><Button buttonText="My Library"/></Link>}
             {!auth && <Link to="/auth"><Button buttonText="Register"/></Link>}
             </div>
