@@ -32,10 +32,13 @@
     margin-bottom: 12px;
 }
 .book-item__photo {
+    margin-left: auto;
     background-color: colors.$appbg;
+    width: 160px;
     height: 220px;
-    @include mediaq.for-tablet-desktop-up {
-        height: 230px;
+    @include mediaq.for-desktop-up {
+        width: 182px;
+        height: 250px;
     }
     img {
         object-fit: cover;

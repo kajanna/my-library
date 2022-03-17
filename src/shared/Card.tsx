@@ -17,7 +17,6 @@ function Card({ children, title, cardFooter, addContentPadding, noTitlePadding  
             <div className={ noTitlePadding ? "card_title card_title--padding" : "card_title" }>{title}</div>
             <div className={ addContentPadding ? "card_content card_content--padding" : "card_content" }>{children}</div>
             <div className={cardFooter ?"card_footer" : "card_footer--no-content"}>{cardFooter && cardFooter}</div>
-          
         </div>
     );
 }

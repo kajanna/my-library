@@ -5,6 +5,7 @@ import Card from '../../shared/Card';
 import DeleteModal from '../../shared/DeleteModal';
 import AuthContext from '../../shared/contexts/authContext';
 import AppearAnimation from '../../shared/AppearAnimation';
+import { ReactComponent as DefaultBookCover } from '../../assets/default_book_cover.svg'
 import { Book } from '../../shared/shared_interfaces';
 
 import './BookItem.scss'
@@ -53,7 +54,7 @@ function BookItem({ borrowerName, borrowerId, title, authors, date, id, coverUrl
             {whereIsTheBook}
           </div>
           <div className="book-item__photo">
-           { coverUrl && <img src={coverUrl}/>}
+           { coverUrl ? <img src={coverUrl}/> : <DefaultBookCover />}
           </div>
         </div>
       </Card>
