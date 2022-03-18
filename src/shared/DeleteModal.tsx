@@ -12,7 +12,6 @@ interface DeleteModalProps {
 }
 
 function DeleteModal({ onCloseDeleteModal, title, itemId, coverRef, onDeleteBook}: DeleteModalProps) {
-  
   const deleteBookWithIDHandler = async (itemId: string, coverRef?: string | undefined) => {
     try {
       await onDeleteBook(itemId, coverRef);
