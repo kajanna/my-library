@@ -19,19 +19,21 @@ function MyLibrary() {
   const [ loadedBooks, setLoadedBooks ] = useState<Book[] | null | undefined>();
   const [ filtredBooks, setFiltredBooks ] = useState<Book[] | null | undefined>();
   const [ activeButtonId, setActiveButtonId ] = useState<string>("all");
+  const [ bookWasDeleted, setBookWasDeleted ] = useState(false);
   const { getUserBooksById, deleteBook, clearError, loading, firebaseError } = useFirebase();
 
 
   async function deleteBookHandler(deletedBookId: string, deletedBookRef?: string) {
     try {
      await deleteBook(deletedBookId, deletedBookRef);
+     setBookWasDeleted(true);
     } catch (error) {}
-      setLoadedBooks((prevBooks) =>
-        prevBooks!.filter((book) => book.id !== deletedBookId)
-      );
-      setFiltredBooks((prevBooks) =>
-      prevBooks!.filter((book) => book.id !== deletedBookId)
-    );
+    //   setLoadedBooks((prevBooks) =>
+    //     prevBooks!.filter((book) => book.id !== deletedBookId)
+    //   );
+    //   setFiltredBooks((prevBooks) =>
+    //   prevBooks!.filter((book) => book.id !== deletedBookId)
+    // );
     }
     function showAllBooks(buttonId:string){
       setActiveButtonId(buttonId);
@@ -61,7 +63,8 @@ function MyLibrary() {
       } catch (err) {}
     }
     setUsersBook();
-  }, []);
+    setBookWasDeleted(false);
+  }, [bookWasDeleted]);
 
   const myLibraryButton = [ { showbooksCathegory: showAllBooks, buttonText:"show all books", id:"all"},
   { showbooksCathegory: showLentBooks, buttonText:"show lent books", id:"lent"},

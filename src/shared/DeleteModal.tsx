@@ -1,7 +1,4 @@
 import Modal from './Modal';
-import useFirebase from './hooks/useFirebase';
-import LoadingSpinner from './LoadingSpinner';
-import ErrorModal from './ErrorModal';
 
 import './DeleteModal.scss'
 
@@ -15,18 +12,16 @@ interface DeleteModalProps {
 }
 
 function DeleteModal({ onCloseDeleteModal, title, itemId, coverRef, onDeleteBook}: DeleteModalProps) {
-  const { clearError, loading, firebaseError } = useFirebase();
+  
   const deleteBookWithIDHandler = async (itemId: string, coverRef?: string | undefined) => {
     try {
       await onDeleteBook(itemId, coverRef);
+      onCloseDeleteModal();
     } catch(err) {}
-  }
+  };
+
   return (
     <>
-       {loading && <LoadingSpinner />}
-      {firebaseError && (
-        <ErrorModal errorText={firebaseError} closeErrorModal={clearError} />
-      )}
     <Modal title="Delete book" onCloseModal={onCloseDeleteModal}>
       <div>Do you want to delete {title} from your Library?</div>
       <div className="delete-modal-button-section">

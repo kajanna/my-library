@@ -133,7 +133,6 @@ function useFirebase() {
       coverRef: bookCover ? bookCover.coverRef.toString() : "",
       date: serverTimestamp(),
     };
-    console.log("new Book", bookCover ? bookCover.coverRef.toString() : "",)
     try {
       const addNewBook = await addDoc(bookRef, newBook);
       if (addNewBook) {
@@ -147,14 +146,10 @@ function useFirebase() {
 
   async function deleteBook(bookId: string, coverRef?: string) {
     setLoading(true);
-    console.log("dominik");
-    console.log(loading);
     if (coverRef) {
       const deletedCoverRef = ref(storage, coverRef)
-      console.log("deleteBook - deleting picture start");
       try {
-        await deleteObject(deletedCoverRef)
-        console.log("deleteBook - deleting picture stop");
+        await deleteObject(deletedCoverRef);
       } catch(error) {
         setFirebasError("We couldn't delete your book");
         setLoading(false);
@@ -164,7 +159,6 @@ function useFirebase() {
     try {
       await deleteDoc(deletedBookRef);
       setLoading(false);
-      console.log("deleteBook - stop", loading);
       return bookId;
     } catch (error) {
       setFirebasError("We couldn't delete your book");
@@ -180,14 +174,12 @@ function useFirebase() {
     coverFile,
   }: EditedBookData) {
     setLoading(true);
-    console.log("editedBook");
     let bookCover;
     if (coverFile) {
       try {
         bookCover = await fileUpload(coverFile);
       } catch {}
     }
-    console.log(bookCover);
     const editedBookRef = doc(db, "books", id!);
     let editedBook: {
       title? : string;
@@ -196,26 +188,24 @@ function useFirebase() {
       coverUrl? : string;
       coverRef? : string
     } = {};
-    console.log("191");
     if (title) {
-      console.log("193");
       editedBook.title = title
     }
-    console.log("196");
+
     if (authors) {
-      console.log("authors");
+
       editedBook.authors = authors
     }
     if (borrowerName) {
-      console.log("borrowerName");
+
       editedBook.borrowerName = borrowerName
     }
     if (bookCover) {
-      console.log(bookCover);
+
       editedBook.coverUrl = bookCover.coverUrl;
       editedBook.coverRef = bookCover.coverRef.toString()
     }
-    console.log(editedBook);
+ 
     try {
       await updateDoc(editedBookRef, editedBook);
       setLoading(false);

@@ -16,7 +16,6 @@ $btnWidth: 80px;
     &:hover {
         background-color: lighten(colors.$danger, 30%);
     }
-
 }
 .delete-modal-button-cancel {
     @include styles.buttonBase(colors.$text, $cancelBorder, colors.$bg);
