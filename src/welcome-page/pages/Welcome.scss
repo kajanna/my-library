@@ -4,34 +4,48 @@
 
 .welcome {
     position: relative;
-}
-
-.welcome__info {
-    @include mediaq.for-tablet-desktop-up {
-       position: static;
-       max-width: 466px;
+    width: 100%;
+    img {
+        width: 100%;
     }
-}
-.welcome__text {
     @include mediaq.for-tablet-desktop-up {
-        padding: 1rem;
-     }
+        width: 70%;
+    }
+    @include mediaq.for-desktop-up {
+        width: 40%;
+        img {
+            width: 80%;
+            margin: 0 10% ;
+        }
+    }  
 }
-.welcome__register {
-    margin: 2rem 0 1rem;
-    @include mediaq.for-tablet-desktop-up {
-        max-width: 50%; 
-        margin: 1rem 1rem 2rem;
-     }
+.welcome__content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -6rem;
+    @include mediaq.for-desktop-up {
+        flex-direction: row;
+        align-items: flex-end;
+        margin-top: -4rem;
+    }  
 }
-
 .welcome__picture {
     @include mediaq.for-tablet-desktop-up {
-        position: absolute;
-        width: 40rem;
-        top: 8rem;
-        left: calc(50% - 20rem); 
-     }
+        width: 24rem;
+        margin-left: calc(50% - 12rem);
+    }
+    @include mediaq.for-desktop-up {
+        order: 2;
+        width: 38rem;
+       
+    }  
+}
+.welcome__text {
+    @include mediaq.for-desktop-up {
+        order: 1
+    }  
 }
 
 //picture animation
