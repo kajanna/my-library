@@ -77,7 +77,7 @@ function MyLibrary() {
           <AddBookLink />
           <div>
             <div>
-              {myLibraryButton.map(button =>  <MyLibraryButton 
+              {myLibraryButton.map(button => <MyLibraryButton 
                 key={button.id}
                 showbooksCathegory={button.showbooksCathegory}
                 buttonText={button.buttonText}

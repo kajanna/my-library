@@ -12,7 +12,7 @@ import './BookItem.scss'
 
 
 interface BookItemProps extends Book {
-  onDeleteBook:(deletedBookId: string) => void
+  onDeleteBook: (deletedBookId: string, deletedBookRef?: string | undefined) => Promise<void>
 }
 
 function BookItem({ borrowerName, borrowerId, title, authors, date, id, coverUrl, coverRef, ownerName, ownerId, onDeleteBook }: BookItemProps) {

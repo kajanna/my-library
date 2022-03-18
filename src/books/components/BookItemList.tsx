@@ -7,7 +7,7 @@ import './BookItemList.scss'
 
 interface BookItemListProps {
     items: Book[] | null | undefined,
-    onDeleteBook: (deletedBookId: string) => void
+    onDeleteBook: (deletedBookId: string, deletedBookRef?: string | undefined) => Promise<void>
 }
 
 function BookItemList({ items, onDeleteBook }: BookItemListProps) {
