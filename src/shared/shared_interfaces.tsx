@@ -1,4 +1,3 @@
-import { StorageReference } from "firebase/storage";
 export interface BookEssentials {
     title: string;
     authors: string;
