@@ -36,6 +36,7 @@ function App() {
   } else {
     routes = (
       <Routes>
+          <Route path="/my-library" element={<LoadingSpinner />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<PageNotFound />} />
