@@ -1,13 +1,11 @@
-import React from 'react';
-
-import './BackDrop.scss'
+import "./BackDrop.scss";
 
 interface BackDropProps {
-    close: () => void
+  close: () => void;
 }
 
-function BackDrop({ close }: BackDropProps) {
-    return <div className='backdrop' onClick={close}></div>
-}
+const BackDrop = ({ close }: BackDropProps) => {
+  return <div className="backdrop" onClick={close}></div>;
+};
 
 export default BackDrop;

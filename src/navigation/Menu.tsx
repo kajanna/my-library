@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import ErrorModal from "../shared/ErrorModal";
 
 import "./Menu.scss";
 
-function Menu() {
+const Menu = () => {
   const navigate = useNavigate();
   const { loading, authError, logout, clearAuthError } = useAuth();
   const auth = useContext(AuthContext);

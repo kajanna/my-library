@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -15,17 +13,16 @@ interface FirebaseAuthError {
   code: string;
 }
 
-function useAuth() {
+const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>();
 
-  const navigate = useNavigate();
   const auth = getAuth();
   const db = getFirestore();
   const usersRef = collection(db, "users");
 
   //util function - provides custom Error messages
-  function setErrorMessage(code: string) {
+  const setErrorMessage = (code: string) => {
     switch (code) {
       case "auth/email-already-in-use":
         return "this email is already in use, please use another email or try to login.";
@@ -42,9 +39,9 @@ function useAuth() {
       default:
         return "something went wrong, please try again";
     }
-  }
+  };
 
-  async function register(email: string, password: string, name: string) {
+  const register = async (email: string, password: string, name: string) => {
     setLoading(true);
     let uid: string | null = null;
     try {
@@ -65,9 +62,9 @@ function useAuth() {
       setAuthError(errorMessage);
       setLoading(false);
     }
-  }
+  };
 
-  async function login(email: string, password: string) {
+  const login = async (email: string, password: string) => {
     setLoading(true);
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
@@ -79,9 +76,9 @@ function useAuth() {
       setAuthError(errorMessage);
       setLoading(false);
     }
-  }
+  };
 
-  async function logout() {
+  const logout = async () => {
     setLoading(true);
     try {
       await signOut(auth);
@@ -92,13 +89,13 @@ function useAuth() {
       setAuthError(errorMessage);
       setLoading(false);
     }
-  }
+  };
 
-  function clearAuthError() {
+  const clearAuthError = () => {
     setAuthError(null);
-  }
+  };
 
   return { loading, authError, register, login, logout, clearAuthError };
-}
+};
 
 export default useAuth;

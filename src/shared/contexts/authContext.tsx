@@ -10,7 +10,7 @@ interface AuthContextProviderProps {
 }
 const AuthContext = createContext<User | null | undefined>(null);
 
-export function AuthProvider({ children }: AuthContextProviderProps) {
+export const AuthProvider = ({ children }: AuthContextProviderProps) => {
   const auth = getAuth();
   const db = getFirestore();
 
@@ -40,6 +40,6 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
-}
+};
 
 export default AuthContext;

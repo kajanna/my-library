@@ -1,11 +1,9 @@
-import React from 'react';
-
 import { Link } from 'react-router-dom'
 
 import Card from '../../shared/Card';
 import Button from '../../shared/Button';
 
-function AddBookLink() {
+const AddBookLink = () => {
   return (
     <Card title="Add a book" addContentPadding={true}>
       <Link to="/add-new-book">

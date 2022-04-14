@@ -1,5 +1,3 @@
-import React from 'react';
-
 // import Card from '../../shared/Card';
 // import { ReactComponent as SearchReversedIcon } from '../../assets/search_reversed_icon.svg';
 // import InputElement from '../../shared/Form/InputElement';
@@ -7,7 +5,7 @@ import React from 'react';
 
 import './SearchForm.scss'
 
-function SearchForm() {
+const SearchForm = () => {
 //   const searchButtonContent = (
 //     <div className='search-form-button'>
 //       <div className='search-form-button__icon'>

@@ -1,6 +1,6 @@
 @use '../../shared/mediaq';
 
-.auth{
+.auth {
     @include mediaq.for-desktop-up  {
         display: flex;
     }

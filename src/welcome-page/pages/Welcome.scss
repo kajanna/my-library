@@ -3,49 +3,26 @@
 @use '../../shared/mediaq';
 
 .welcome {
-    position: relative;
     width: 100%;
     img {
         width: 100%;
     }
     @include mediaq.for-tablet-desktop-up {
-        width: 70%;
-    }
-    @include mediaq.for-desktop-up {
-        width: 40%;
-        img {
-            width: 80%;
-            margin: 0 10% ;
-        }
+        width: 30rem;
+        margin: auto;
     }  
 }
 .welcome__content {
-    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: -6rem;
-    @include mediaq.for-desktop-up {
-        flex-direction: row;
-        align-items: flex-end;
-        margin-top: -4rem;
-    }  
 }
 .welcome__picture {
     @include mediaq.for-tablet-desktop-up {
-        width: 24rem;
-        margin-left: calc(50% - 12rem);
+       width: 14rem;
+       margin-top: -6rem;
+       margin-left: calc(50% - 7rem);
     }
-    @include mediaq.for-desktop-up {
-        order: 2;
-        width: 38rem;
-       
-    }  
-}
-.welcome__text {
-    @include mediaq.for-desktop-up {
-        order: 1
-    }  
 }
 
 //picture animation

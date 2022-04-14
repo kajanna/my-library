@@ -1,6 +1,5 @@
 @use '../../shared/mediaq';
 
-
 .my-library__main {
     @include mediaq.for-desktop-up {
         display: grid;

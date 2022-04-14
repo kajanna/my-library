@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as BorrowIcon } from '../../assets/borrow_icon.svg';
@@ -13,24 +11,30 @@ interface BookItemActionsProps {
   isNotUsersBook: boolean
 }
 
-function BookItemActions({ onOpenDeleteModal, bookId, isNotUsersBook }: BookItemActionsProps ) {
+const BookItemActions = ({
+  onOpenDeleteModal,
+  bookId,
+  isNotUsersBook,
+}: BookItemActionsProps) => {
   return (
     <div className="book-item-actions">
-      { isNotUsersBook && <div className="book-item-actions__icons">
-        <Link to={`/lend-book/${bookId}`}>
-        <BorrowIcon  />
-        </Link>
-      </div>}
-      <div className="book-item-actions__icons" >
+      {isNotUsersBook && (
+        <div className="book-item-actions__icons">
+          <Link to={`/lend-book/${bookId}`}>
+            <BorrowIcon />
+          </Link>
+        </div>
+      )}
+      <div className="book-item-actions__icons">
         <Link to={`/edit-book-data/${bookId}`}>
-        <EditIcon />
+          <EditIcon />
         </Link>
       </div>
       <div className="book-item-actions__icons" onClick={onOpenDeleteModal}>
-        <DeleteIcon  />
+        <DeleteIcon />
       </div>
     </div>
   );
-}
+};
 
 export default BookItemActions;

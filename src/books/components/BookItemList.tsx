@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Book } from '../../shared/shared_interfaces';
 import BookItem from './BookItem'
 
@@ -10,7 +8,7 @@ interface BookItemListProps {
     onDeleteBook: (deletedBookId: string, deletedBookRef?: string | undefined) => Promise<void>
 }
 
-function BookItemList({ items, onDeleteBook }: BookItemListProps) {
+const BookItemList = ({ items, onDeleteBook }: BookItemListProps) => {
   let bookList;
   if (items) {
     bookList = items.map((book: Book) => (

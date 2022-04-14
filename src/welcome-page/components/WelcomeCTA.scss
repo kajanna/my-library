@@ -2,14 +2,8 @@
 @use '../../shared/mediaq';
 
 .welcomeCTA {
-    margin: 1rem 3rem;
+    margin: 1rem;
     font-size: 18px;
     color: colors.$main;
     font-weight: 600;
-    @include mediaq.for-tablet-desktop-up {
-        margin: 1rem 8rem;
-     }
-     @include mediaq.for-desktop-up {
-        margin: 2rem 0rem;
-    }  
 }

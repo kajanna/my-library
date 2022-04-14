@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
+import { ReactComponent as VisibleIcon } from "../assets/visible_icon.svg";
 
-import { ReactComponent as VisibleIcon } from '../assets/visible_icon.svg';
-
-import './MyLibraryButton.scss'
+import "./MyLibraryButton.scss";
 
 interface MyLibraryButtonProps {
-    showbooksCathegory: (id:string) => void;
-    buttonText: string,
-    buttonId: string,
-    isActive: boolean
+  showbooksCathegory: (id: string) => void;
+  buttonText: string;
+  buttonId: string;
+  isActive: boolean;
 }
 
-function MyLibraryButton({ showbooksCathegory, buttonText, buttonId, isActive }: MyLibraryButtonProps) {
-  
-    return (
-      <div>
-        <button
-          className={`my-library-button ${
-            isActive && "my-library-button--active"
-          }`}
-          onClick={() => showbooksCathegory(buttonId)}
-        >
-          <div className="button-content">
-            <div className="button-content__icon">
-              <VisibleIcon />
-            </div>
-            <div>{buttonText}</div>
+const MyLibraryButton = ({
+  showbooksCathegory,
+  buttonText,
+  buttonId,
+  isActive,
+}: MyLibraryButtonProps) => {
+  return (
+    <div>
+      <button
+        className={`my-library-button ${
+          isActive && "my-library-button--active"
+        }`}
+        onClick={() => showbooksCathegory(buttonId)}
+      >
+        <div className="button-content">
+          <div className="button-content__icon">
+            <VisibleIcon />
           </div>
-        </button>
-      </div>
-    );
-}
+          <div>{buttonText}</div>
+        </div>
+      </button>
+    </div>
+  );
+};
 
 export default MyLibraryButton;

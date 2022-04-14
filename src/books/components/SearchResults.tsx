@@ -1,6 +1,4 @@
-import React from 'react';
-
-function SearchResults() {
+const SearchResults = () => {
     return (
         <div>
             SearchResults

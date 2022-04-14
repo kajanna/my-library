@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import {Formik, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import Card from '../../shared/Card';
@@ -17,29 +17,33 @@ import FileUpload from '../../shared/Form/FileUpload';
 import './BookForm.scss';
 
 const bookFormSchema = Yup.object().shape({
-  title: Yup.string()
-    .required("this field is required"),
-  authors: Yup.string()
-    .required("this field is required"),
+  title: Yup.string().required("this field is required"),
+  authors: Yup.string().required("this field is required"),
   borrowerName: Yup.string(),
-  coverFile: Yup.mixed()
-    .test(
-      "fileType",
-      "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
-      (value) =>
-      !value || value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
-    )
+  coverFile: Yup.mixed().test(
+    "fileType",
+    "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
+    (value) =>
+      !value ||
+      (value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type))
+  ),
 });
 
 interface BookFormProps {
-    title: string,
-    initialValues: BookFormFormikValues,
-    bookId?: string | null |undefined,
-    borrowerId?: string | null | undefined,
-    editedbookUrl?: string | null | undefined,
+  title: string;
+  initialValues: BookFormFormikValues;
+  bookId?: string | null | undefined;
+  borrowerId?: string | null | undefined;
+  editedbookUrl?: string | null | undefined;
 }
 
-function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: BookFormProps) {
+const BookForm = ({
+  title,
+  initialValues,
+  bookId,
+  borrowerId,
+  editedbookUrl,
+}: BookFormProps) => {
   const navigate = useNavigate();
   const { addNewBook, clearError, editBookData, loading, firebaseError } =
     useFirebase();
@@ -122,7 +126,10 @@ function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: B
                     touched={touched}
                   />
                 )}
-                <FileUpload file={values.coverFile} editedbookUrl={editedbookUrl} />
+                <FileUpload
+                  file={values.coverFile}
+                  editedbookUrl={editedbookUrl}
+                />
                 <label htmlFor="coverFile" className="book-form__label">
                   add book cover
                 </label>
@@ -142,7 +149,7 @@ function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: B
               <div className="book-form__button-section">
                 <Button
                   buttonText={title === "Add new book" ? "add" : "edit"}
-                  type="submit" 
+                  type="submit"
                 />
               </div>
             </Form>
@@ -151,6 +158,6 @@ function BookForm({ title, initialValues, bookId, borrowerId, editedbookUrl }: B
       </Formik>
     </>
   );
-}
+};
 
 export default BookForm;

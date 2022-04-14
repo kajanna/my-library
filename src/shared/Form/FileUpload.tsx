@@ -1,26 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import './FileUpload.scss'
+import "./FileUpload.scss";
 
 interface FileUploadProps {
   file?: any;
-  editedbookUrl?: string | null |undefined
+  editedbookUrl?: string | null | undefined;
 }
 
-function FileUpload({ file, editedbookUrl }: FileUploadProps) {
+const FileUpload = ({ file, editedbookUrl }: FileUploadProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>();
 
-  useEffect(()=> {
+  useEffect(() => {
     if (editedbookUrl) {
       setPreviewUrl(editedbookUrl);
     } else {
       setPreviewUrl(null);
     }
-  }, [editedbookUrl])
+  }, [editedbookUrl]);
   useEffect(() => {
     if (!file) {
       return;
-  }
+    }
     const fileReader = new FileReader();
     fileReader.onload = () => {
       if (typeof fileReader.result === "string") {
@@ -38,6 +38,6 @@ function FileUpload({ file, editedbookUrl }: FileUploadProps) {
       </div>
     </div>
   );
-}
+};
 
 export default FileUpload;

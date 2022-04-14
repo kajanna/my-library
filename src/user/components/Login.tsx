@@ -1,32 +1,29 @@
-import React from 'react';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from  'react-router-dom'
-
-import Card from '../../shared/Card';
-import Button from '../../shared/Button';
-import InputElement from '../../shared/Form/InputElement';
-import useAuth from '../../shared/hooks/useAuth';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import ErrorModal from '../../shared/ErrorModal';
-
+import Card from "../../shared/Card";
+import Button from "../../shared/Button";
+import InputElement from "../../shared/Form/InputElement";
+import useAuth from "../../shared/hooks/useAuth";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import ErrorModal from "../../shared/ErrorModal";
 
 const loginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("email address is incorrect")
-      .required("this field is required"),
-    password: Yup.string()
-      .min(8, "password should be at least 8 characters long")
-      .required("this field is required")
-  });
+  email: Yup.string()
+    .email("email address is incorrect")
+    .required("this field is required"),
+  password: Yup.string()
+    .min(8, "password should be at least 8 characters long")
+    .required("this field is required"),
+});
 
 interface LoginFormikValues {
-    email: string,
-    password: string 
+  email: string;
+  password: string;
 }
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const { loading, authError, login, clearAuthError } = useAuth();
   async function handleSubmit(values: LoginFormikValues) {
@@ -78,6 +75,6 @@ function Login() {
       </Formik>
     </>
   );
-}
+};
 
 export default Login;

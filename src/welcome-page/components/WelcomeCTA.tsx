@@ -1,12 +1,12 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
-import Button from '../../shared/Button';
-import AuthContext from '../../shared/contexts/authContext';
+import Button from "../../shared/Button";
+import AuthContext from "../../shared/contexts/authContext";
 
-import './WelcomeCTA.scss'
+import "./WelcomeCTA.scss";
 
-function WelcomeCTA() {
+const WelcomeCTA = () => {
   const auth = useContext(AuthContext);
   return (
     <div className="welcomeCTA">

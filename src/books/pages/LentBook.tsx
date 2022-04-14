@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
 
-import LendBookForm from '../components/LendBookForm';
-import AppearAnimation from '../../shared/AppearAnimation';
-import useFirebase from '../../shared/hooks/useFirebase';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import ErrorModal from '../../shared/ErrorModal';
-import { BookFormFormikValues } from '../../shared/shared_interfaces'
+import { useParams } from "react-router-dom";
 
+import LendBookForm from "../components/LendBookForm";
+import AppearAnimation from "../../shared/AppearAnimation";
+import useFirebase from "../../shared/hooks/useFirebase";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import ErrorModal from "../../shared/ErrorModal";
+import { BookFormFormikValues } from "../../shared/shared_interfaces";
 
-
-function LentBook() {
+const LentBook = () => {
   const [lentBook, setLentBook] = useState<BookFormFormikValues>({
     title: "",
     authors: "",

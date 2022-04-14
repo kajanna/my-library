@@ -6,7 +6,7 @@
     border-left: none;
     z-index: 12;
     position: absolute;
-    top:78px;
+    top: 78px;
     left: 0;
     width: 160px;
     padding: 30px;
@@ -15,6 +15,7 @@
     transition: transform .4s ease-in;
     z-index: 6;
 }
+
 .side-menu--show {
-    transform: none ;
+    transform: none;
 }

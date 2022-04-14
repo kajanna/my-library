@@ -1,13 +1,11 @@
-import React from 'react';
+import "./Footer.scss";
 
-import './Footer.scss'
-
-function Footer() {
-    return (
-        <>
-            <div className="footer">copyright by Kaja Szokalska-Masłyk</div>
-        </>
-    );
-}
+const Footer = () => {
+  return (
+    <>
+      <div className="footer">copyright by Kaja Szokalska-Masłyk</div>
+    </>
+  );
+};
 
 export default Footer;

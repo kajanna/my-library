@@ -1,45 +1,41 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useContext } from "react";
 
-import {Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import { useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
-import Card from '../../shared/Card';
-import InputElement from '../../shared/Form/InputElement';
-import Button from '../../shared/Button';
-import AppearAnimation from '../../shared/AppearAnimation';
-import AuthContext from '../../shared/contexts/authContext';
-import useFirebase from '../../shared/hooks/useFirebase';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import ErrorModal from '../../shared/ErrorModal';
-import FileUpload from '../../shared/Form/FileUpload';
-
-import { Book } from '../../shared/shared_interfaces'
+import Card from "../../shared/Card";
+import InputElement from "../../shared/Form/InputElement";
+import Button from "../../shared/Button";
+import AppearAnimation from "../../shared/AppearAnimation";
+import AuthContext from "../../shared/contexts/authContext";
+import useFirebase from "../../shared/hooks/useFirebase";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import ErrorModal from "../../shared/ErrorModal";
+import FileUpload from "../../shared/Form/FileUpload";
+import { Book } from "../../shared/shared_interfaces";
 
 const borrowBookSchema = Yup.object().shape({
-  title: Yup.string()
-  .required("this field is required"),
-  authors: Yup.string()
-  .required("this field is required"),
-  ownerName: Yup.string()
-  .required("this field is required"),
-  coverFile: Yup.mixed()
-    .test(
-      "fileType",
-      "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
-      (value) =>
-      !value || value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
-    )
+  title: Yup.string().required("this field is required"),
+  authors: Yup.string().required("this field is required"),
+  ownerName: Yup.string().required("this field is required"),
+  coverFile: Yup.mixed().test(
+    "fileType",
+    "incorrect File Type, we accept: jpg, jpeg, png, this field is not required",
+    (value) =>
+      !value ||
+      (value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type))
+  ),
 });
 
 interface BorrowBookFormikValues {
-  title: string,
-  authors: string,
-  ownerName:string,
-  coverFile: any
+  title: string;
+  authors: string;
+  ownerName: string;
+  coverFile: any;
 }
 
-function BorrowBook() {
+const BorrowBook = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const { addNewBook, loading, firebaseError, clearError } = useFirebase();
@@ -49,10 +45,10 @@ function BorrowBook() {
       title: values.title,
       authors: values.authors,
       ownerName: values.ownerName,
-      ownerId:'',
+      ownerId: "",
       borrowerName: auth!.name,
       borrowerId: auth!.id,
-      coverFile: values.coverFile
+      coverFile: values.coverFile,
     };
     try {
       await addNewBook(bookData);
@@ -74,7 +70,7 @@ function BorrowBook() {
           title: "",
           authors: "",
           ownerName: "",
-          coverFile: null
+          coverFile: null,
         }}
         onSubmit={handleSubmit}
       >
@@ -107,23 +103,26 @@ function BorrowBook() {
                     errors={errors}
                     touched={touched}
                   />
-                 <FileUpload file={values.coverFile} />
-                <label htmlFor="coverFile" className="book-form__label">
-                  add book cover
-                </label>
-                <input
-                  style={{ display: "none" }}
-                  accept=".jpg, .png, .jpeg"
-                  id="coverFile"
-                  type="file"
-                  name="coverFile"
-                  onChange={(event) => {
-                    if (event.currentTarget.files) {
-                      setFieldValue("coverFile", event.currentTarget.files[0]);
-                    }
-                  }}
-                />
-              </div>
+                  <FileUpload file={values.coverFile} />
+                  <label htmlFor="coverFile" className="book-form__label">
+                    add book cover
+                  </label>
+                  <input
+                    style={{ display: "none" }}
+                    accept=".jpg, .png, .jpeg"
+                    id="coverFile"
+                    type="file"
+                    name="coverFile"
+                    onChange={(event) => {
+                      if (event.currentTarget.files) {
+                        setFieldValue(
+                          "coverFile",
+                          event.currentTarget.files[0]
+                        );
+                      }
+                    }}
+                  />
+                </div>
                 <div className="book-form__button-section">
                   <Button buttonText="Borrow" type="submit" />
                 </div>
@@ -134,6 +133,6 @@ function BorrowBook() {
       </Formik>
     </>
   );
-}
+};
 
 export default BorrowBook;
