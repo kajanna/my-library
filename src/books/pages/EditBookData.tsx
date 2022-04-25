@@ -21,7 +21,7 @@ const EditBookData = () => {
   const { getEditedBook, clearError, loading, firebaseError } = useFirebase();
 
   useEffect(() => {
-    async function getInitialFormValues() {
+    const getInitialFormValues = async () => {
       try {
         if (bookId) {
           const book = await getEditedBook(bookId);
@@ -36,7 +36,7 @@ const EditBookData = () => {
           }
         }
       } catch (error) {}
-    }
+    };
     getInitialFormValues();
     return () => {
       getInitialFormValues();
@@ -60,6 +60,6 @@ const EditBookData = () => {
       </AppearAnimation>
     </>
   );
-}
+};
 
 export default EditBookData;

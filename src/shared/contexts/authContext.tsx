@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
 
   const [user, setUser] = useState<User | null | undefined>(null);
 
-  async function getFullUserData(uid: string) {
+  const getFullUserData = async(uid: string) => {
     const loggedUserRef = doc(db, "users", uid);
     getDoc(loggedUserRef).then((docSnap) => {
       if (docSnap.exists()) {
@@ -30,13 +30,14 @@ export const AuthProvider = ({ children }: AuthContextProviderProps) => {
     });
   }
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const Unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         getFullUserData(user.uid);
       } else {
         setUser(null);
       }
     });
+    return Unsubscribe ; 
   }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;

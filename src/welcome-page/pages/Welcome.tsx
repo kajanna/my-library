@@ -5,7 +5,7 @@ import WelcomeCTA from "../components/WelcomeCTA";
 
 import "./Welcome.scss";
 
-function Welcome() {
+const Welcome = () => {
   return (
     <div className="welcome">
       <img src={Blobs} />

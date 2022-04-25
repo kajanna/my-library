@@ -1,15 +1,11 @@
-import './AppearAnimation.scss'
+import "./AppearAnimation.scss";
 
 interface AppearAnimationProps {
-    children: JSX.Element | JSX.Element[]
+  children: JSX.Element | JSX.Element[];
 }
 
 const AppearAnimation = ({ children }: AppearAnimationProps) => {
-    return (
-        <div className='appear-animation'>
-            {children}
-        </div>
-    );
-}
+  return <div className="appear-animation">{children}</div>;
+};
 
 export default AppearAnimation;

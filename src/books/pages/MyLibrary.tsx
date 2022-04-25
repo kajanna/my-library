@@ -22,20 +22,20 @@ const MyLibrary = () => {
   const { getUserBooksById, deleteBook, clearError, loading, firebaseError } =
     useFirebase();
 
-  async function deleteBookHandler(
+  const deleteBookHandler = async (
     deletedBookId: string,
     deletedBookRef?: string
-  ) {
+  ) => {
     try {
       await deleteBook(deletedBookId, deletedBookRef);
       setBookWasDeleted(true);
     } catch (error) {}
-  }
-  function showAllBooks(buttonId: string) {
+  };
+  const showAllBooks = (buttonId: string) => {
     setActiveButtonId(buttonId);
     setFiltredBooks(loadedBooks);
-  }
-  function showLentBooks(buttonId: string) {
+  };
+  const showLentBooks = (buttonId: string) => {
     setActiveButtonId(buttonId);
     if (loadedBooks) {
       const filtredBooks = loadedBooks.filter(
@@ -43,8 +43,8 @@ const MyLibrary = () => {
       );
       setFiltredBooks(filtredBooks);
     }
-  }
-  function showBorrowedBooks(buttonId: string) {
+  };
+  const showBorrowedBooks = (buttonId: string) => {
     setActiveButtonId(buttonId);
     if (loadedBooks) {
       const filtredBooks = loadedBooks.filter(
@@ -52,16 +52,16 @@ const MyLibrary = () => {
       );
       setFiltredBooks(filtredBooks);
     }
-  }
+  };
 
   useEffect(() => {
-    async function setUsersBook() {
+    const setUsersBook = async () => {
       try {
         const books = await getUserBooksById(auth!.id);
         setLoadedBooks(books);
         setFiltredBooks(books);
       } catch (err) {}
-    }
+    };
     setUsersBook();
     setBookWasDeleted(false);
   }, [bookWasDeleted]);

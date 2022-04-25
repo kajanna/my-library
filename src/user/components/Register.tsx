@@ -1,6 +1,5 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 import Card from "../../shared/Card";
 import Button from "../../shared/Button";
@@ -26,17 +25,13 @@ interface RegisterFormikValues {
 }
 
 const Register = () => {
-  const navigate = useNavigate();
   const { loading, authError, register, clearAuthError } = useAuth();
 
-  async function handleSubmit(values: RegisterFormikValues) {
+  const handleSubmit = async (values: RegisterFormikValues) => {
     try {
-      const uid = await register(values.email, values.password, values.name);
-      if (uid) {
-        navigate("/my-library");
-      }
+      await register(values.email, values.password, values.name);
     } catch (err) {}
-  }
+  };
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -86,6 +81,6 @@ const Register = () => {
       </Formik>
     </>
   );
-}
+};
 
 export default Register;

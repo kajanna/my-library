@@ -55,7 +55,6 @@ const useAuth = () => {
         name: name,
       });
       setLoading(false);
-      return uid;
     } catch (error) {
       const err = error as FirebaseAuthError;
       const errorMessage = setErrorMessage(err.code);
@@ -67,9 +66,8 @@ const useAuth = () => {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       setLoading(false);
-      return user;
     } catch (error) {
       const err = error as FirebaseAuthError;
       const errorMessage = setErrorMessage(err.code);

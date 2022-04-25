@@ -15,12 +15,12 @@ const Menu = () => {
   const { loading, authError, logout, clearAuthError } = useAuth();
   const auth = useContext(AuthContext);
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     try {
       await logout();
       navigate("/");
     } catch (err) {}
-  }
+  };
 
   return (
     <>
@@ -40,6 +40,6 @@ const Menu = () => {
       </ol>
     </>
   );
-}
+};
 
 export default Menu;

@@ -19,7 +19,7 @@ const LentBook = () => {
   const { bookId } = useParams<string>();
 
   useEffect(() => {
-    async function getLentBookData() {
+    const getLentBookData = async() => {
       try {
         if (bookId) {
           const book = await getEditedBook(bookId);
@@ -48,6 +48,6 @@ const LentBook = () => {
       </AppearAnimation>
     </>
   );
-}
+};
 
 export default LentBook;

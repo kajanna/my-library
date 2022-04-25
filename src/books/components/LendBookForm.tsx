@@ -1,32 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import {Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
+import Card from "../../shared/Card";
+import InputElement from "../../shared/Form/InputElement";
+import Button from "../../shared/Button";
+import useFirebase from "../../shared/hooks/useFirebase";
+import LoadingSpinner from "../../shared/LoadingSpinner";
+import ErrorModal from "../../shared/ErrorModal";
+import { EditedBookData } from "../../shared/shared_interfaces";
 
-import Card from '../../shared/Card';
-import InputElement from '../../shared/Form/InputElement';
-import Button from '../../shared/Button';
-import useFirebase from '../../shared/hooks/useFirebase';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import ErrorModal from '../../shared/ErrorModal';
-import { EditedBookData } from '../../shared/shared_interfaces'
-
-import './LendBookForm.scss';
+import "./LendBookForm.scss";
 
 const lendBookSchema = Yup.object().shape({
   borrowerName: Yup.string(),
 });
 
 interface LendBookFormikValues {
-  borrowerName: string | null | undefined
+  borrowerName: string | null | undefined;
 }
 
 const LendBookForm = ({ authors, title, borrowerName, id }: EditedBookData) => {
   const navigate = useNavigate();
   const { editBookData, clearError, loading, firebaseError } = useFirebase();
 
-  async function handleSubmit(values: LendBookFormikValues) {
+  const handleSubmit = async (values: LendBookFormikValues) => {
     const editedData = {
       authors,
       title,
@@ -39,7 +38,7 @@ const LendBookForm = ({ authors, title, borrowerName, id }: EditedBookData) => {
         navigate("/my-library");
       }
     } catch (error) {}
-  }
+  };
 
   return (
     <>

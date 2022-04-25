@@ -40,7 +40,7 @@ const BorrowBook = () => {
   const auth = useContext(AuthContext);
   const { addNewBook, loading, firebaseError, clearError } = useFirebase();
 
-  async function handleSubmit(values: BorrowBookFormikValues) {
+  const handleSubmit = async (values: BorrowBookFormikValues) => {
     const bookData: Book = {
       title: values.title,
       authors: values.authors,
@@ -56,7 +56,7 @@ const BorrowBook = () => {
         navigate("/my-library");
       }
     } catch (error) {}
-  }
+  };
 
   return (
     <>
